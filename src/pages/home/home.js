@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./home.css";
 
 const images = [
-  "/back1.png",
+  require("../../img/back1.png"),
 ];
 
 const NavBar = () => {
@@ -75,10 +75,10 @@ const SearchBar = () => (
 
 const Icons = () => {
   const iconData = [
-    { src: "cotton.jpg", label: "Cotton Types", categories: ["Shirts", "Pants", "Dresses"] },
-    { src: "slik.jpeg", label: "Silk Types", categories: ["Sarees", "Scarves", "Gowns"] },
-    { src: "handloom.jpg", label: "Handloom", categories: ["Traditional", "Modern", "Fusion"] },
-    { src: "linen.jpg", label: "Linen", categories: ["Casual", "Formal", "Beach Wear"] },
+    { src: require("../../img/cotton.jpg"), label: "Cotton Types", categories: ["Shirts", "Pants", "Dresses"] },
+    { src: require("../../img/slik.jpeg"), label: "Silk Types", categories: ["Sarees", "Scarves", "Gowns"] },
+    { src: require("../../img/handloom.jpg"), label: "Handloom", categories: ["Traditional", "Modern", "Fusion"] },
+    { src: require("../../img/linen.jpg"), label: "Linen", categories: ["Casual", "Formal", "Beach Wear"] },
   ];
 
   const [activeDropdown, setActiveDropdown] = useState(null);
