@@ -19,23 +19,28 @@ const NavBar = () => {
 
   return (
     <div className="nav-bar">
-      <a href="/">Home</a>
-      <a href="products">Products</a>
-      <div 
-        className="dropdown"
-        onMouseEnter={() => setShowDropdown(true)}
-        onMouseLeave={() => setShowDropdown(false)}
-      >
-        <a href="categories">All Categories</a>
-        {showDropdown && (
-          <div className="dropdown-content">
-            {categories.map((category, index) => (
-              <a key={index} href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`}>
-                {category}
-              </a>
-            ))}
-          </div>
-        )}
+      <div className="logo">
+        <img src={require("../../img/logo.png")} alt="Company Logo" />
+      </div>
+      <div className="nav-links">
+        <a href="/">Home</a>
+        <a href="products">Products</a>
+        <div 
+          className="dropdown"
+          onMouseEnter={() => setShowDropdown(true)}
+          onMouseLeave={() => setShowDropdown(false)}
+        >
+          <a href="categories">All Categories</a>
+          {showDropdown && (
+            <div className="dropdown-content">
+              {categories.map((category, index) => (
+                <a key={index} href={`/categories/${category.toLowerCase().replace(/\s+/g, '-')}`}>
+                  {category}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

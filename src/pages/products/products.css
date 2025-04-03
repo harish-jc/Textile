@@ -16,7 +16,7 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    background: transparent; /* Changed to transparent */
     color: white;
     display: flex;
     justify-content: flex-end;
@@ -151,4 +151,3 @@ body {
 .footer-links a:hover {
     text-decoration: underline;
 }
-  
