@@ -25,12 +25,13 @@ const NavBar = () => {
       <div className="nav-links">
         <a href="/">Home</a>
         <a href="products">Products</a>
-        <div 
-          className="dropdown"
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
-        >
-          <a href="categories">All Categories</a>
+        <div className="dropdown">
+          <a href="#" onClick={(e) => {
+            e.preventDefault();
+            setShowDropdown(!showDropdown);
+          }}>
+            All Categories
+          </a>
           {showDropdown && (
             <div className="dropdown-content">
               {categories.map((category, index) => (
@@ -72,51 +73,113 @@ const Slideshow = () => {
 
 const SearchBar = () => (
   <div className="search-container">
-    <h1>Search for Products</h1>
-    <input type="text" placeholder="Search..." />
-    <button>Search</button>
+    <h1>Discover Premium Textiles</h1>
+    <p>Explore our collection of finest fabrics and materials</p>
+    <div className="search-box">
+      <input type="text" placeholder="Search for fabrics, materials, or designs..." />
+      <button><i className="fas fa-search"></i> Search</button>
+    </div>
   </div>
 );
 
-const Icons = () => {
-  const iconData = [
-    { src: require("../../img/cotton.jpg"), label: "Cotton Types", categories: ["Shirts", "Pants", "Dresses"] },
-    { src: require("../../img/slik.jpeg"), label: "Silk Types", categories: ["Sarees", "Scarves", "Gowns"] },
-    { src: require("../../img/handloom.jpg"), label: "Handloom", categories: ["Traditional", "Modern", "Fusion"] },
-    { src: require("../../img/linen.jpg"), label: "Linen", categories: ["Casual", "Formal", "Beach Wear"] },
+const FeaturedProducts = () => {
+  const textileTypes = [
+    { 
+      name: "Mangalagiri Cotton", 
+      description: "Famous handwoven cotton from Mangalagiri, known for its unique zari borders and durability",
+      image: require("../../img/slik.jpeg")
+    },
+    { 
+      name: "Uppada Jamdani", 
+      description: "Delicate silk textile with intricate patterns, traditionally woven in Uppada",
+      image: require("../../img/slik.jpeg")
+    },
+    { 
+      name: "Dharmavaram Silk", 
+      description: "Rich silk sarees with traditional temple borders and motifs from Dharmavaram",
+      image: require("../../img/slik.jpeg")
+    },
+    { 
+      name: "Venkatagiri Cotton", 
+      description: "Fine cotton with gold border work, specialty of Venkatagiri weavers",
+      image: require("../../img/slik.jpeg")
+    }
   ];
 
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  return (
+    <section className="featured-section">
+      <h2>Traditional Textiles of Andhra Pradesh</h2>
+      <div className="products-slider">
+        {textileTypes.map((textile, index) => (
+          <div className="product-card" key={index}>
+            <img src={textile.image} alt={textile.name} />
+            <div className="product-info">
+              <h3>{textile.name}</h3>
+              <p>{textile.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const Categories = () => {
+  const categories = [
+    { 
+      name: "Handloom Heritage", 
+      description: "Ancient weaving techniques preserved through generations",
+      image: require("../../img/slik.jpeg")
+    },
+    { 
+      name: "Ikat Traditions", 
+      description: "Distinctive tie-dye weaving patterns unique to Andhra",
+      image: require("../../img/slik.jpeg")
+    },
+    { 
+      name: "Temple Designs", 
+      description: "Traditional motifs inspired by temple architecture",
+      image: require("../../img/slik.jpeg")
+    },
+    { 
+      name: "Modern Innovations", 
+      description: "Contemporary adaptations of traditional techniques",
+      image: require("../../img/slik.jpeg")
+    }
+  ];
 
   return (
-    <div className="scrolling-icons">
-      {iconData.map((icon, i) => (
-        <div 
-          className="icon" 
-          key={i}
-          onClick={() => setActiveDropdown(activeDropdown === i ? null : i)}
-        >
-          <img src={icon.src} alt={icon.label} />
-          <p>{icon.label}</p>
-          {activeDropdown === i && (
-            <div className="icon-dropdown">
-              {icon.categories.map((category, j) => (
-                <div key={j} className="dropdown-item">{category}</div>
-              ))}
+    <section className="categories-section">
+      <h2>Textile Traditions</h2>
+      <div className="categories-grid">
+        {categories.map((category, index) => (
+          <div className="category-tile" key={index}>
+            <img src={category.image} alt={category.name} />
+            <div className="category-info">
+              <h3>{category.name}</h3>
+              <p>{category.description}</p>
             </div>
-          )}
-        </div>
-      ))}
-    </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 
 const Home = () => (
-  <div>
+  <div className="home-container">
     <NavBar />
     <Slideshow />
     <SearchBar />
-    <Icons />
+    <FeaturedProducts />
+    <Categories />
+    <section className="about-section">
+      <div className="about-content">
+        <h2>Crafting Excellence in Textiles</h2>
+        <p>With over 25 years of expertise in textile manufacturing and trading, we bring you the finest quality fabrics from across India.</p>
+        <button className="learn-more">Learn More</button>
+      </div>
+    </section>
   </div>
 );
 
