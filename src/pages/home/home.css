@@ -11,12 +11,13 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: transparent; /* Ensuring the navbar is transparent */
+    background: #333; /* Navbar background color */
     padding: 15px 20px;
     z-index: 100;
     display: flex;
     align-items: center;
     box-sizing: border-box;
+    color: #fff; /* Navbar text color */
   }
 
   .logo {
@@ -40,7 +41,7 @@ body {
   }
 
   .nav-links a {
-    color: #333;
+    color: #f4efef;
     text-decoration: none;
     font-size: 1.2rem;
     padding: 10px 20px;
@@ -51,6 +52,7 @@ body {
   .nav-bar a:hover {
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
+    color: #ff9800; /* Navbar link hover color */
   }
   
   .dropdown-content {
@@ -180,7 +182,7 @@ body {
     margin-top: 80px;
     padding: 4rem 2rem;
     text-align: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(118, 243, 237, 0.5);
     backdrop-filter: blur(5px);
     color: white;
   }
@@ -346,7 +348,7 @@ body {
   
   .about-section {
     padding: 6rem 2rem;
-    background: url('../../img/slik.jpeg') center/cover fixed;
+    background: url("../../img/products\ background.jpg") center/cover fixed;
     color: white;
     text-align: center;
   }
@@ -374,4 +376,150 @@ body {
   .learn-more:hover {
     background: white;
     color: black;
+  }
+
+  /* Featured Products Section */
+  .featured-section {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .product-card {
+    padding: 10px;
+  }
+  
+  .product-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px; /* Adjust the height as needed */
+    object-fit: cover;
+  }
+  
+  .product-info {
+    margin-top: 10px;
+  }
+
+  /* Categories Section */
+  .categories-section {
+    text-align: center;
+    margin: 20px auto;
+    padding: 20px;
+  }
+  
+  .category-tile {
+    padding: 10px;
+  }
+  
+  .category-image {
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Adjust the height as needed */
+    object-fit: cover;
+  }
+  
+  .category-info {
+    margin-top: 10px;
+  }
+  
+  .slick-prev:before,
+  .slick-next:before {
+    color: black; /* Customize arrow color */
+  }
+
+  .icon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .icon-card {
+    width: 150px; /* Adjust the size of the icon card */
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .icon-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .icon-image {
+    width: 100px; /* Adjust the size of the icon */
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  
+  .icon-info h3 {
+    font-size: 16px;
+    margin: 5px 0;
+  }
+  
+  .icon-info p {
+    font-size: 12px;
+    color: #666;
+  }
+
+  .big-icon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Space between cards */
+  }
+  
+  .big-icon-card {
+    width: 200px; /* Adjust the size of the card */
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .big-icon-card:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+  }
+  
+  .big-icon-image {
+    width: 150px; /* Adjust the size of the icon */
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 50%; /* Make the image circular */
+    border: 2px solid #ddd; /* Optional border around the circle */
+  }
+  
+  .big-icon-info h3 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .big-icon-info p {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .home-container {
+    background-color: #f0f8ff; /* Change background color */
+    color: #333; /* Change text color */
+  }
+
+  .categories-container {
+    background-color: #f5f5f5; /* Change background color */
+    color: #444; /* Change text color */
+  }
+
+  .category-card {
+    background-color: #ffffff; /* Card background color */
+    color: #333; /* Card text color */
+  }
+
+  .category-card:hover {
+    background-color: #f0f0f0; /* Card hover background color */
   }
