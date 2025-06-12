@@ -19,6 +19,11 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "antd": "^5.25.4"
+        "@fontsource/pt-sans-narrow": "^5.2.6",
+        "@fortawesome/fontawesome-free": "^6.7.2",
+        "antd": "^5.25.4",
+        "bootstrap": "^5.3.6",
+        "react-owl-carousel": "^2.3.3",
+        "swiper": "^11.2.8"
     }
 }

@@ -15,9 +15,12 @@ use Illuminate\Foundation\Application;
 */
 
 // Optional: Redirect root to login or homepage
+// Route::get('/', function () {
+//     return redirect()->route('admin.login');
+// });
 Route::get('/', function () {
-    return redirect()->route('admin.login');
-});
+    return Inertia::render('Home/Home');
+})->name('home');
 
 // User dashboard (for regular users, if applicable)
 Route::middleware(['auth', 'verified'])->group(function () {
