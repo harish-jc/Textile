@@ -27,4 +27,70 @@ class ProductController extends Controller
         ]);
     }
 
+    public function collection($title)
+    {
+        // Define collection data
+        $collections = [
+            'gujarat' => [
+                [
+                    'id' => 1,
+                    'name' => "Black Bandhanii Pattern Digital Print Muslin Fabric",
+                    'price' => '₹223',
+                    'image' => '/storage/img/products/product-1-5.png'
+                ],
+                [
+                    'id' => 2,
+                    'name' => "Dark Green And Blush Red Bandhanii Pattern Digital Print Kota Doria Fabric",
+                    'price' => '₹249',
+                    'image' => '/storage/img/products/product-1-6.png'
+                ],
+                [
+                    'id' => 3,
+                    'name' => "Royal Blue And Green Bandhanii Pattern Digital Print Kota Doria Fabric",
+                    'price' => '₹219',
+                    'image' => '/storage/img/products/product-1-7.png'
+                ],
+                [
+                    'id' => 4,
+                    'name' => "MarinBrick Red Plain Cotton Linen Shirting Fabric",
+                    'price' => '₹499',
+                    'image' => '/storage/img/products/product-1-8.png'
+                ],
+            ],
+            'hyderabad' => [
+                [
+                    'id' => 1,
+                    'name' => "Prismatic Red Ajrakh Printed Cotton Fabric",
+                    'price' => '₹220',
+                    'image' => '/storage/img/products/product-1-1.png'
+                ],
+                [
+                    'id' => 2,
+                    'name' => "Vermilllion Orange Ajrakh Printed Cotton Fabric",
+                    'price' => '₹259',
+                    'image' => '/storage/img/products/product-1-2.png'
+                ],
+                [
+                    'id' => 3,
+                    'name' => "Auburn Maroon Ajrakh Printed Cotton Fabric",
+                    'price' => '₹299',
+                    'image' => '/storage/img/products/product-1-3.png'
+                ],
+                [
+                    'id' => 4,
+                    'name' => "Marine Blue Ajrakh Printed Cotton Fabric",
+                    'price' => '₹220',
+                    'image' => '/storage/img/products/product-1-4.png'
+                ],
+            ]
+        ];
+
+        // Default to Hyderabad if title not found
+        $data = $collections[strtolower($title)] ?? $collections['hyderabad'];
+
+        return Inertia::render('Website/Product/collection', [
+            'title' => ucfirst($title),
+            'products' => $data,
+        ]);
+    }
 }

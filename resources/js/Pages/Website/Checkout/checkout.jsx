@@ -17,73 +17,73 @@ const Checkout = () => {
             <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-6">
                 {/* 📦 Billing & Payment Form */}
                 <form className="w-full lg:w-2/3 bg-white p-6 rounded shadow">
-                    <h2 className="text-lg font-semibold mb-4 lycoris-color">Billing & Payment Details</h2>
+                    <h2 className="text-lg font-semibold mb-4">Billing & Payment Details</h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Full Name</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="John Doe" />
+                            <label className="block font-medium text-gray-600 mb-1">Full Name</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="John Doe" />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Email Address</label>
-                            <input type="email" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="you@example.com" />
+                            <label className="block font-medium text-gray-600 mb-1">Email Address</label>
+                            <input type="email" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="you@example.com" />
                         </div>
                         <div className="md:col-span-2">
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Shipping Address</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="1234 Main St" />
+                            <label className="block font-medium text-gray-600 mb-1">Shipping Address</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="1234 Main St" />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">City</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="City" />
+                            <label className="block font-medium text-gray-600 mb-1">City</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="City" />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Postal Code</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="ZIP / Postal" />
+                            <label className="block font-medium text-gray-600 mb-1">Postal Code</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="ZIP / Postal" />
                         </div>
                     </div>
 
-                    <h3 className="text-lg font-semibold mt-6 mb-3 lycoris-color">Payment Info</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <h3 className="text-lg font-semibold mt-6 mb-3">Payment Info</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
                         <div className="md:col-span-2">
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Card Number</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="•••• •••• •••• ••••" />
+                            <label className="block font-medium text-gray-600 mb-1">Card Number</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="•••• •••• •••• ••••" />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Expiry Date</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="MM/YY" />
+                            <label className="block font-medium text-gray-600 mb-1">Expiry Date</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="MM/YY" />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">CVV</label>
-                            <input type="text" className="text-sm w-full border border-gray-300 rounded px-3 py-2" placeholder="123" />
+                            <label className="block font-medium text-gray-600 mb-1">CVV</label>
+                            <input type="text" className=" w-full border border-gray-300 rounded px-3 py-2" placeholder="123" />
                         </div>
                     </div>
 
-                    <button type="submit" className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition text-sm">
+                    <button type="submit" className="mt-6 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition ">
                         Place Order
                     </button>
                 </form>
 
                 {/* 🧾 Order Summary */}
-                <aside className="w-full lg:w-1/3 bg-white p-5 rounded shadow h-fit">
-                    <h2 className="text-lg font-semibold mb-3 lycoris-color">Order Summary</h2>
-                    <ul className="space-y-3 text-sm">
+                <aside className="w-full lg:w-1/3 bg-white p-3 rounded shadow h-fit">
+                    <h2 className="text-lg font-semibold mb-3">Order Summary</h2>
+                    <ul className="p-0">
                         {cartItems.map(item => (
                             <li key={item.id} className="flex items-center">
                                 <img src={item.image} alt="" className="w-12 h-12 object-cover rounded" />
                                 <div className="ml-3">
-                                    <p className="font-medium text-sm">{item.name}</p>
-                                    <p className="text-xs text-gray-600">{item.qty} × ₹{item.price}</p>
+                                    <p className="font-medium ">{item.name}</p>
+                                    <p className="">{item.qty} × ₹{item.price}</p>
                                 </div>
-                                <p className="ml-auto font-medium text-sm">₹{item.qty * item.price}</p>
+                                <p className="ml-auto font-medium ">₹{item.qty * item.price}</p>
                             </li>
                         ))}
                     </ul>
                     <hr className="my-3" />
-                    <div className="flex justify-between text-sm mb-1">
+                    <div className="flex justify-between  mb-1">
                         <span>Subtotal</span>
                         <span>₹{subtotal}</span>
                     </div>
-                    <div className="flex justify-between text-sm mb-1">
+                    <div className="flex justify-between  mb-1">
                         <span>Shipping</span>
                         <span className="text-green-600">Free</span>
                     </div>

@@ -49,6 +49,16 @@ Route::get('/checkout', function () {
     return Inertia::render('Website/Checkout/checkout');
 })->name('checkout');
 
+Route::get('/collection/{title}',[ProductController::class,'collection'])->name('collection.show');
+
+Route::get('/contact', function () {
+    return Inertia::render('Website/Contact/contact');
+})->name('contact');
+
+Route::get('/profile', function () {
+    return Inertia::render('Website/Auth/auth');
+})->name('profile');
+
 // User dashboard (for regular users, if applicable)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

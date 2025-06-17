@@ -7,6 +7,8 @@ import '@/Pages/Home/Home.css'; // Importing CSS for styling
 const Show = ({ product }) => {
     const [activeTab, setActiveTab] = useState('Description');
     const { post } = useForm();
+    const [showQuickView, setShowQuickView] = useState(false);
+    const [quickViewProduct, setQuickViewProduct] = useState(null);
 
     const products = [
         {
@@ -99,6 +101,14 @@ const Show = ({ product }) => {
         });
     };
 
+    const handleQuickView = (product) => {
+        setQuickViewProduct(product);
+        setShowQuickView(true);
+    };
+
+    const closeQuickView = () => {
+        setShowQuickView(false);
+    };
 
     return (
         <>
@@ -163,14 +173,34 @@ const Show = ({ product }) => {
                                 <button
                                     type="button"
                                     className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex-1 sm:flex-none"
+                                    onClick={() => setShowQuickView(true)}
                                     aria-label="Quick view"
                                 >
-                                    <i className="fas fa-solid fa-eye text-white-700"></i> {/* For quick view */}
-                                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                        Quick view
-                                    </span>
+                                    <i className="fas fa-eye"></i>
                                 </button>
                             </div>
+
+                            {/* Quick View Modal */}
+                            {showQuickView && (
+                                <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
+                                    <div className="relative max-w-3xl w-full p-4">
+                                        {/* Close Icon */}
+                                        <button
+                                            className="absolute top-2 right-2 text-white text-2xl"
+                                            onClick={() => setShowQuickView(false)}
+                                        >
+                                            &times;
+                                        </button>
+
+                                        {/* Full Image */}
+                                        <img
+                                            src={product.image} // You can pass product.image as prop
+                                            alt={product.name}
+                                            className="w-full h-auto object-contain rounded-lg shadow-lg"
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -179,7 +209,7 @@ const Show = ({ product }) => {
                 <div className="mt-10 container mx-auto px-4">
                     <div className="border-b border-gray-200 mb-4">
                         <nav className="flex space-x-8" aria-label="Tabs">
-                            {['Description', 'Additional Info', 'Reviews'].map((tab) => (
+                            {['Description', 'Additional Info',].map((tab) => (
                                 <button
                                     key={tab}
                                     className={`py-2 px-1 border-b-2 text-xl ${activeTab === tab
@@ -197,17 +227,17 @@ const Show = ({ product }) => {
                     {/* Tab Contents */}
                     <div className="text-left text-gray-900 leading-relaxed space-y-4">
                         {activeTab === 'Description' && (
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas, quo excepturi, consequuntur blanditiis libero qui quod rerum quae odio commodi dicta expedita reiciendis corrupti dolore nulla aliquam iste ratione, incidunt consequatur sapiente placeat? Consequuntur similique, possimus vero dolor praesentium, dicta aspernatur odio expedita, beatae eum non nisi. Id quis dolores animi atque nihil beatae commodi dolore expedita necessitatibus, velit ex rem eius voluptatem molestiae, cupiditate sunt autem temporibus consectetur. Ut, nihil nobis, eligendi tenetur ab ipsa eveniet repudiandae dolorem corrupti eius quaerat eum! Alias quia sapiente illum et totam tenetur. Facilis, tempora. Pariatur illum distinctio voluptatum nisi adipisci esse corrupti?</p>
+                            <p className='text-black'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas, quo excepturi, consequuntur blanditiis libero qui quod rerum quae odio commodi dicta expedita reiciendis corrupti dolore nulla aliquam iste ratione, incidunt consequatur sapiente placeat? Consequuntur similique, possimus vero dolor praesentium, dicta aspernatur odio expedita, beatae eum non nisi. Id quis dolores animi atque nihil beatae commodi dolore expedita necessitatibus, velit ex rem eius voluptatem molestiae, cupiditate sunt autem temporibus consectetur. Ut, nihil nobis, eligendi tenetur ab ipsa eveniet repudiandae dolorem corrupti eius quaerat eum! Alias quia sapiente illum et totam tenetur. Facilis, tempora. Pariatur illum distinctio voluptatum nisi adipisci esse corrupti?</p>
                         )}
                         {activeTab === 'Additional Info' && (
                             <>
-                                <p><strong>Category:</strong> Fashion</p>
-                                <p><strong>Material:</strong> Cotton</p>
-                                <p><strong>Color:</strong> Blue</p>
-                                <p><strong>Size:</strong> M, L, XL</p>
+                                <p><strong className='text-black'>Category :</strong> Fashion</p>
+                                <p><strong className='text-black'>Material :</strong> Cotton</p>
+                                <p><strong className='text-black'>Color :</strong> Blue</p>
+                                <p><strong className='text-black'>Size :</strong> M, L, XL</p>
                             </>
                         )}
-                        {activeTab === 'Reviews' && (
+                        {/* {activeTab === 'Reviews' && (
                             <>
                                 <p>No reviews yet.</p>
                                 <button
@@ -217,7 +247,7 @@ const Show = ({ product }) => {
                                     Write a Review
                                 </button>
                             </>
-                        )}
+                        )} */}
                     </div>
                 </div>
             </section>
@@ -251,12 +281,18 @@ const Show = ({ product }) => {
                                             </div>
                                         </div>
                                         <div className="xc-product-eight__content">
-                                            <div className="xc-product-eight__ratting">
+                                            {/* <div className="xc-product-eight__ratting">
                                                 {renderRating(product.rating)}
                                                 ({product.reviews} Reviews)
-                                            </div>
+                                            </div> */}
+                                            {/* <h5 className="xc-product-eight__price"><del className='pr-2'>{product.originalPrice}</del> {product.discountedPrice}</h5> */}
                                             <h3 className="xc-product-eight__title"><a href="#">{product.title}</a></h3>
-                                            <h5 className="xc-product-eight__price"><del>{product.originalPrice}</del> {product.discountedPrice}</h5>
+                                             <div className="mt-0">
+                                                {product.originalPrice && (
+                                                    <span className="text-gray-400 text-sm line-through ml-0 pr-2">{product.originalPrice}</span>
+                                                )}
+                                                <span className="text-gray-900 text-xl font-bold">{product.price}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -79,12 +79,12 @@ const Cart = () => {
     return (
         <section className="py-10 bg-gray-50 min-h-screen">
             <div className="container mx-auto px-4">
-                <h1 className="text-xl lycoris-color mb-6">Shopping Cart</h1>
+                <h3 className="text-xl mb-6">Shopping Cart</h3>
 
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Shopping Cart - Left Side (Full width on mobile, 2/3 on desktop) */}
                     <div className="w-full lg:w-2/3">
-                        <div className="overflow-x-auto w-full mb-6 lg:mb-0 text-sm">
+                        <div className="overflow-x-auto w-full mb-6 lg:mb-0">
                             <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
                                 <thead>
                                     <tr className="bg-gray-100 text-left">
@@ -102,7 +102,7 @@ const Cart = () => {
                                                 <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
                                                 <div>
                                                     <span className="block font-medium">{item.name}</span>
-                                                    <span className="block text-sm text-gray-500">
+                                                    <span className="block">
                                                         {item.specifications.width} • {item.specifications.weight}
                                                     </span>
                                                 </div>
@@ -143,8 +143,8 @@ const Cart = () => {
 
                     {/* Cart Summary - Right Side (Full width on mobile, 1/3 on desktop) */}
                     <div className="w-full lg:w-1/3">
-                        <div className="bg-white p-6 rounded shadow sticky top-4 text-sm">
-                            <h2 className="text-xl lycoris-color mb-4">Cart Summary</h2>
+                        <div className="bg-white p-6 rounded shadow sticky top-4">
+                            <h3 className="text-xl mb-4">Cart Summary</h3>
                             <div className="space-y-3">
                                 <div className="flex justify-between">
                                     <span>Subtotal:</span>
@@ -154,7 +154,7 @@ const Cart = () => {
                                     <span>Shipping:</span>
                                     <span className="text-green-600">Free</span>
                                 </div>
-                                <div className="flex justify-between text-lg font-semibold border-t pt-3 mt-3">
+                                <div className="flex justify-between font-semibold border-t pt-3 mt-3">
                                     <span>Total:</span>
                                     <span>₹{subtotal}</span>
                                 </div>
@@ -164,7 +164,7 @@ const Cart = () => {
                             </button> */}
                             <button
                                 onClick={() => router.visit(route('checkout'))}
-                                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex-1 sm:flex-none">
+                                className="mt-2 px-6 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex-1 sm:flex-none">
                                 Proceed to Checkout
                             </button>
                         </div>

@@ -71,8 +71,8 @@ const Header = () => {
         </ul>
       </li>
 
-      {/* <li><Link href="/contact">Contact</Link></li> */}
-      <li>
+      <li><Link href={route('contact')}>Contact</Link></li>
+      {/* <li>
         <a
           href="#footer"
           onClick={(e) => {
@@ -83,14 +83,15 @@ const Header = () => {
         >
           Contact
         </a>
-      </li>
+      </li> */}
 
     </ul>
   );
 
   return (
     <header style={{ backgroundColor: '#f8f9fa' }}>
-      <div className="xc-header-two xc-header-three" id="xc-header-sticky" style={{ backgroundColor: '#fff' }}>
+      <div className="xc-header-two xc-header-three shadow-md z-50 relative" id="xc-header-sticky" style={{ backgroundColor: '#fff' }}>
+
         <div className="container">
           <div className="xc-header-two__wrapper">
             <div className="xc-header-two__logo">
@@ -106,13 +107,13 @@ const Header = () => {
               </div>
 
               <div className="xc-header-two__btns d-none d-lg-flex">
-                <Link href="/cart" className="xc-header-two__btn" style={{ color: '#007bff' }}>
+                <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#007bff' }}>
                   <i className="fas fa-shopping-cart"></i>
                 </Link>
-                <Link href="/wishlist" className="xc-header-two__btn" style={{ color: '#dc3545' }}>
+                <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#dc3545' }}>
                   <i className="fas fa-heart"></i>
                 </Link>
-                <Link href="/profile" className="xc-header-two__btn" style={{ color: '#343a40' }}>
+                <Link href={route('profile')} className="xc-header-two__btn" style={{ color: '#343a40' }}>
                   <i className="fas fa-user"></i>
                 </Link>
               </div>

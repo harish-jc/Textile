@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { Link } from '@inertiajs/react';
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import './Home.css';
@@ -67,8 +68,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Jute Cotton",
-            originalPrice: "$450",
-            discountedPrice: "$289",
+            originalPrice: "₹450",
+            discountedPrice: "₹289",
         },
         {
             id: 2,
@@ -77,8 +78,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Visco Rayon",
-            originalPrice: "$589",
-            discountedPrice: "$289",
+            originalPrice: "₹589",
+            discountedPrice: "₹289",
         },
         {
             id: 3,
@@ -87,8 +88,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Tricot Nylon",
-            originalPrice: "$239",
-            discountedPrice: "$209",
+            originalPrice: "₹239",
+            discountedPrice: "₹209",
         },
         {
             id: 4,
@@ -97,8 +98,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Cupro Rayon",
-            originalPrice: "$150",
-            discountedPrice: "$100",
+            originalPrice: "₹150",
+            discountedPrice: "₹100",
         },
     ];
 
@@ -167,6 +168,30 @@ export default function Home() {
         },
     ];
 
+    const items = [
+        {
+            id: 1,
+            imgSrc: "/storage/img/products/product-tending-1.jpg",
+            title: "Taffeta Polyester",
+            originalPrice: "₹489",
+            discountedPrice: "₹289"
+        },
+        {
+            id: 2,
+            imgSrc: "/storage/img/products/product-tending-2.jpg",
+            title: "Silk Blend",
+            originalPrice: "₹599",
+            discountedPrice: "₹399"
+        },
+        {
+            id: 3,
+            imgSrc: "/storage/img/products/product-tending-3.jpg",
+            title: "Cotton Fabric",
+            originalPrice: "₹199",
+            discountedPrice: "₹149"
+        }
+    ];
+
     // Render star rating
     const renderRating = (rating) => {
         return Array.from({ length: 5 }).map((_, i) => (
@@ -179,7 +204,7 @@ export default function Home() {
             {/* <Header /> */}
             <FrontLayout>
 
-                <div className="xc-page-wrapper">
+                <div className="xc-page-wrapper ">
                     <div className="xc-scrollbar_progress"></div>
                     <div className="xc-body-overlay xc-close-toggler"></div>
 
@@ -208,11 +233,11 @@ export default function Home() {
                             <ul className="xc-mobile-nav__contact list-unstyled">
                                 <li>
                                     <i className="fa fa-envelope"></i>
-                                    <a href="mailto:harish.mozitz@gmail.com">need@help.com</a>
+                                    <a href="mailto:harish.mozitz@gmail.com">needhelp@textile.com</a>
                                 </li>
                                 <li>
                                     <i className="fa fa-phone-alt"></i>
-                                    <a href="tel:666-888-0000">666 888 0000</a>
+                                    <a href="tel:9876543210">+91 9876543210</a>
                                 </li>
                             </ul>
                             <div className="xc-mobile-nav__top">
@@ -300,7 +325,7 @@ export default function Home() {
                                             <h3>{item.subtitle}</h3>
                                             <h2>{item.mainTitle}</h2>
                                             <div className="xc-banner-eight-lg__btn" style={{ marginTop: '1rem' }}>
-                                                <a className="swiftcart-btn-black2" href="#">
+                                                <a className="swiftcart-btn-black2" href={route('products.index', { title: 'our products' })}>
                                                     Shop Now
                                                 </a>
                                             </div>
@@ -358,22 +383,33 @@ export default function Home() {
                             <div className="row gutter-y-20">
                                 <div className="col-md-6 col-xl-3">
                                     <div className="xc-banner-eight__item">
-                                        <div className="xc-banner-eight__img w-img">
-                                            <img src="/storage/img/banner/banner-8-1.png" alt="banner" />
-                                        </div>
+                                        <Link href={route('collection.show', { title: 'gujarat' })}>
+                                            <div className="xc-banner-eight__img w-img">
+                                                <img src="/storage/img/banner/banner-8-1.png" alt="banner" />
+                                            </div>
+                                        </Link>
                                         <div className="xc-banner-eight__content">
-                                            <h3 className="xc-banner-eight__title"><a href="#">NEW ARRIVALS</a></h3>
+                                            <h3 className="xc-banner-eight__title">
+                                                <Link href={route('collection.show', { title: 'gujarat' })}>Gujarat</Link>
+                                                {/* <a href="#" className="uppercase">Gujarat</a> */}
+                                            </h3>
                                             <span className=".xc-banner-eight__subtitle">Hot Collection</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-md-6 col-xl-3">
                                     <div className="xc-banner-eight__item">
-                                        <div className="xc-banner-eight__img w-img">
-                                            <img src="/storage/img/banner/banner-8-2.png" alt="banner" />
-                                        </div>
+                                        <Link href={route('collection.show', { title: 'hyderabad' })}>
+                                            <div className="xc-banner-eight__img w-img">
+                                                <img src="/storage/img/banner/banner-8-2.png" alt="banner" />
+                                            </div>
+                                        </Link>
                                         <div className="xc-banner-eight__content">
-                                            <h3 className="xc-banner-eight__title"><a href="#">Merino Wool</a></h3>
+                                            <h3 className="xc-banner-eight__title">
+                                                <Link href={route('collection.show', { title: 'hyderabad' })}>Hyderabad</Link>
+
+                                                {/* <a href="#" className="uppercase">Hyderabad</a> */}
+                                            </h3>
                                             <span className=".xc-banner-eight__subtitle">Hot Collection</span>
                                         </div>
                                     </div>
@@ -433,7 +469,11 @@ export default function Home() {
                                                     ({product.reviews} Reviews)
                                                 </div>
                                                 <h3 className="xc-product-eight__title"><a href="#">{product.title}</a></h3>
-                                                <h5 className="xc-product-eight__price"><del>{product.originalPrice}</del> {product.discountedPrice}</h5>
+                                                {/* <h5 className="xc-product-eight__price"><del className="pr-2">{product.originalPrice}</del> {product.discountedPrice}</h5> */}
+                                                {product.discountedPrice && (
+                                                    <span className="text-gray-400 text-sm line-through pr-2">{product.discountedPrice}</span>
+                                                )}
+                                                <span className="text-gray-900 text-xl font-bold">{product.originalPrice}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -485,41 +525,16 @@ export default function Home() {
                             <div className="xc-best-deal__filter-box has-border tabs-box">
                                 <div className="xc-best-deal__filter-box-wrap mb-20">
                                     <ul className="xc-best-deal__filter-btn tab-buttons">
-                                        <li
-                                            data-tab="#all"
-                                            className={`tab-btn ${activeTab === "all" ? "active-btn" : ""}`}
-                                            onClick={() => handleTabClick("all")}
-                                        >
-                                            <span>All</span>
-                                        </li>
-                                        <li
-                                            data-tab="#new"
-                                            className={`tab-btn ${activeTab === "new" ? "active-btn" : ""}`}
-                                            onClick={() => handleTabClick("new")}
-                                        >
-                                            <span>New Arrivals</span>
-                                        </li>
-                                        <li
-                                            data-tab="#trending"
-                                            className={`tab-btn ${activeTab === "trending" ? "active-btn" : ""}`}
-                                            onClick={() => handleTabClick("trending")}
-                                        >
-                                            <span>Trending</span>
-                                        </li>
-                                        <li
-                                            data-tab="#top"
-                                            className={`tab-btn ${activeTab === "top" ? "active-btn" : ""}`}
-                                            onClick={() => handleTabClick("top")}
-                                        >
-                                            <span>Top Seller</span>
-                                        </li>
-                                        <li
-                                            data-tab="#best"
-                                            className={`tab-btn ${activeTab === "best" ? "active-btn" : ""}`}
-                                            onClick={() => handleTabClick("best")}
-                                        >
-                                            <span>Best Offer</span>
-                                        </li>
+                                        {["all", "new", "trending", "top", "best"].map((tab) => (
+                                            <li
+                                                key={tab}
+                                                data-tab={`#${tab}`}
+                                                className={`tab-btn ${activeTab === tab ? "active-btn" : ""}`}
+                                                onClick={() => handleTabClick(tab)}
+                                            >
+                                                <span>{tab === "all" ? "All" : tab.charAt(0).toUpperCase() + tab.slice(1).replace("-", " ")}</span>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
 
@@ -527,33 +542,23 @@ export default function Home() {
                                     {activeTab === "all" && (
                                         <div className="tab active-tab" id="all">
                                             <div className="row gutter-y-30">
-                                                {/* All tab content */}
-                                                {[1, 2, 3].map((item) => (
-                                                    <div key={`all-${item}`} className="col-lg-4 col-md-6">
+                                                {items.map((item) => (
+                                                    <div key={`all-${item.id}`} className="col-lg-4 col-md-6">
                                                         <div className="xc-product-ten__item">
                                                             <div className="xc-product-ten__img w-img">
-                                                                <img
-                                                                    src={`/storage/img/products/product-tending-${item}.jpg`}
-                                                                    alt="product"
-                                                                />
+                                                                <img src={item.imgSrc} alt={item.title} />
                                                             </div>
                                                             <div className="xc-product-ten__content">
                                                                 <h3 className="xc-product-ten__title">
-                                                                    <a href="#">Taffeta Polyster</a>
+                                                                    <a href="#">{item.title}</a>
                                                                 </h3>
                                                                 <h4 className="xc-product-ten__price">
-                                                                    <del>$489</del> $289
+                                                                    {item.discountedPrice}
                                                                 </h4>
                                                                 <div className="xc-product-ten__btn">
-                                                                    <a href="#">
-                                                                        <i className="fas fa-search"></i>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <i className="fas fa-eye"></i>
-                                                                    </a>
-                                                                    <a href="#">
-                                                                        <i className="fas fa-shopping-cart"></i>
-                                                                    </a>
+                                                                    <a href="#"><i className="fas fa-search"></i></a>
+                                                                    <a href="#"><i className="fas fa-eye"></i></a>
+                                                                    <a href="#"><i className="fas fa-shopping-cart"></i></a>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -566,6 +571,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
+
 
                     {/* Testimonial Section */}
                     <div className="xc-testimonial-one pt-0 pb-10 include-bg " style={{ backgroundColor: 'rgb(243 232 203)' }}

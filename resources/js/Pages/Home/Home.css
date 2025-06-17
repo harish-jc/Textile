@@ -570,7 +570,7 @@ p {
   font-family: var(--swiftcart-font);
   font-weight: 400;
   color: var(--swiftcart-text);
-  margin-bottom: 15px;
+  margin-bottom: 1px;
 }
 
 a,
@@ -665,7 +665,7 @@ textarea {
   width: 100%;
   line-height: 60px;
   font-size: 16px;
-  border: 2px solid #EFF0F2;
+  border: 2px solid #ffffff;
   color: var(--swiftcart-black);
   padding-left: 29px;
   padding-right: 29px;
@@ -8706,7 +8706,7 @@ div.xc-ads-one__img img {
   height: 44px;
   text-align: center;
   font-size: 14px;
-  border: 1px solid #DADCE0;
+  border: 1px solid #ffffff;
   background-color: var(--swiftcart-white);
   padding: 0 45px;
 }
@@ -9258,7 +9258,8 @@ html {
   display: block;
 }
 
-.lycoris-color{
-   --tw-text-opacity: 1;
-    color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+.search-rounded{
+  border-radius: 40px;
+  border: 1px solid grey;
+  height: 40px;
 }
