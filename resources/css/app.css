@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* header file start */
+/* Basic structure for dropdown */
+.submenu {
+  display: none;
+}
+
+.has-dropdown:hover > .submenu {
+  display: block; /* for desktop */
+}
+
+/* For mobile open state */
+.has-dropdown.open > .submenu {
+  display: block !important;
+}
+/* header file end */

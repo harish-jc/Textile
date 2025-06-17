@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Cart\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,31 @@ use Illuminate\Foundation\Application;
 Route::get('/', function () {
     return Inertia::render('Home/Home');
 })->name('home');
+
+// Route::get('/products', function () {
+//     return Inertia::render('Website/Product/products');
+// })->name('products.index');
+
+Route::get('/products/{id}', [ProductController::class, 'show'])
+    ->where('id', '[0-9]+')
+    ->name('products.show');
+    
+Route::get('/products/{title}', function ($title) {
+    return Inertia::render(
+        'Website/Product/products',
+        ['title' => ucwords(str_replace('-', ' ', $title))]
+    );
+})->name('products.index');
+
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
+Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
+
+Route::get('/checkout', function () {
+    return Inertia::render('Website/Checkout/checkout');
+})->name('checkout');
 
 // User dashboard (for regular users, if applicable)
 Route::middleware(['auth', 'verified'])->group(function () {

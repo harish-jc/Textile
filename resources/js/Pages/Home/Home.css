@@ -79,9 +79,9 @@
 
 **********************************************/
 :root {
-  --swiftcart-font: "Public Sans", sans-serif;
+  /* --swiftcart-font: "Public Sans", sans-serif;
   --swiftcart-heading-font: "Inter", sans-serif;
-  --swiftcart-special-font: "Public Sans", sans-serif;
+  --swiftcart-special-font: "Public Sans", sans-serif; */
   --swiftcart-letter-space: 0.1em;
   --swiftcart-letter-space-xl: 0.2em;
   --swiftcart-border-radius: 5px;
@@ -9149,7 +9149,6 @@ html {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  /* font-family: 'PT Sans Narrow', sans-serif; */
   /* background: linear-gradient(135deg, #fad3ff, #ffffff); */
   background-attachment: fixed;
   min-height: 100vh;
@@ -9259,5 +9258,7 @@ html {
   display: block;
 }
 
-
-
+.lycoris-color{
+   --tw-text-opacity: 1;
+    color: rgb(161 98 7 / var(--tw-text-opacity, 1));
+}
