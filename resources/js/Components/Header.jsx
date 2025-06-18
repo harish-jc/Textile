@@ -110,7 +110,7 @@ const Header = () => {
                 <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#007bff' }}>
                   <i className="fas fa-shopping-cart"></i>
                 </Link>
-                <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#dc3545' }}>
+                <Link href={route('wishlist')} className="xc-header-two__btn" style={{ color: '#dc3545' }}>
                   <i className="fas fa-heart"></i>
                 </Link>
                 <Link href={route('profile')} className="xc-header-two__btn" style={{ color: '#343a40' }}>
@@ -144,13 +144,13 @@ const Header = () => {
           </div>
 
           <div className="xc-mobile-menu-buttons mt-4 flex gap-4">
-            <Link href="/cart" className="xc-header-two__btn" style={{ color: '#007bff' }}>
+            <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#007bff' }}>
               <i className="fas fa-shopping-cart"></i>
             </Link>
-            <Link href="/wishlist" className="xc-header-two__btn" style={{ color: '#dc3545' }}>
+            <Link href={route('wishlist')} className="xc-header-two__btn" style={{ color: '#dc3545' }}>
               <i className="fas fa-heart"></i>
             </Link>
-            <Link href="/profile" className="xc-header-two__btn" style={{ color: '#fff' }}>
+            <Link href={route('profile')} className="xc-header-two__btn" style={{ color: '#fff' }}>
               <i className="fas fa-user"></i>
             </Link>
           </div>

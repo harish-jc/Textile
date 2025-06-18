@@ -59,6 +59,12 @@ Route::get('/profile', function () {
     return Inertia::render('Website/Auth/auth');
 })->name('profile');
 
+Route::get('/wishlist',function(){
+    return Inertia::render('Website/Cart/wishlist');
+})->name('wishlist');
+// Route::get('/wishlist', [CartController::class, 'wishlistIndex'])->name('wishlist.index');
+// Route::delete('/wishlist/remove/{id}', [CartController::class, 'wishlistRemove'])->name('wishlist.remove');
+
 // User dashboard (for regular users, if applicable)
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
