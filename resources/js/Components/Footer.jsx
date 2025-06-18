@@ -52,7 +52,7 @@ export default function Footer() {
                                     <ul className="xc-footer-one__nav">
                                         <li><a href={route('products.index', { title: 'Our Products' })} style={{ color: '#ccc' }}>Shop Product</a></li>
                                         <li><a href={route('cart.index')} style={{ color: '#ccc' }}>Shoping Cart</a></li>
-                                        <li><a href={route('cart.index')} style={{ color: '#ccc' }}>Wishlist</a></li>
+                                        <li><a href={route('wishlist')} style={{ color: '#ccc' }}>Wishlist</a></li>
                                         <li><a href="/" style={{ color: '#ccc' }}>Our story</a></li>
                                         <li><a href={route('contact')} style={{ color: '#ccc' }}>Customer Help</a></li>
                                     </ul>
