@@ -9,6 +9,17 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+     public function index()
+    {
+        $title = request()->query('title', 'Our Products');
+        $filter = request()->query('filter');
+
+        return Inertia::render('Products/Index', [
+            'title' => $title,
+            'filter' => $filter
+        ]);
+    }
+    
     public function show($id)
     {
         // You can fetch real data here from DB

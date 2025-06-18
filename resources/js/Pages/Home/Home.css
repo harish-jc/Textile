@@ -661,7 +661,7 @@ input[type=url],
 textarea {
   outline: none;
   background-color: #EFF0F2;
-  height: 60px;
+  height: 40px;
   width: 100%;
   line-height: 60px;
   font-size: 16px;

@@ -17,43 +17,75 @@ const Header = () => {
       <li><Link href="/">Home</Link></li>
 
       <li className={`has-dropdown ${isMobile && openDropdowns['fabrics'] ? 'open' : ''}`}>
-        <Link
-          href="#"
-          onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('fabrics'))}
-        >
-          Fabrics
-        </Link>
-        <ul className="submenu">
-          <li className={`has-dropdown ${isMobile && openDropdowns['natural'] ? 'open' : ''}`}>
+    <Link
+        href="#"
+        onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('fabrics'))}
+    >
+        Fabrics
+    </Link>
+    <ul className="submenu">
+        <li className={`has-dropdown ${isMobile && openDropdowns['natural'] ? 'open' : ''}`}>
             <Link
-              href="#"
-              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('natural'))}
+                href="#"
+                onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('natural'))}
             >
-              Natural Fabrics
+                Natural Fabrics
             </Link>
             <ul className="submenu">
-              <li><Link href={route('products.index', { title: 'Cotton Fabrics' })}>Cotton</Link></li>
-              <li><Link href={route('products.index', { title: 'Silk Fabrics' })}>Silk</Link></li>
-              <li><Link href={route('products.index', { title: 'Wool fabrics' })}>Wool</Link></li>
-              <li><Link href={route('products.index', { title: 'Jute fabrics' })}>Jute</Link></li>
-              <li><Link href={route('products.index', { title: 'Linen fabrics' })}>Linen</Link></li>
+                <li>
+                    <Link href={route('products.index', { title: 'Cotton Fabrics', filter: 'cotton' })}>
+                        Cotton
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route('products.index', { title: 'Silk Fabrics', filter: 'silk' })}>
+                        Silk
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route('products.index', { title: 'Wool Fabrics', filter: 'wool' })}>
+                        Wool
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route('products.index', { title: 'Jute Fabrics', filter: 'jute' })}>
+                        Jute
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route('products.index', { title: 'Linen Fabrics', filter: 'linen' })}>
+                        Linen
+                    </Link>
+                </li>
             </ul>
-          </li>
-          <li className={`has-dropdown ${isMobile && openDropdowns['synthetic'] ? 'open' : ''}`}>
+        </li>
+        <li className={`has-dropdown ${isMobile && openDropdowns['synthetic'] ? 'open' : ''}`}>
             <Link
-              href="#"
-              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('synthetic'))}
+                href="#"
+                onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('synthetic'))}
             >
-              Synthetic Fabrics
+                Synthetic Fabrics
             </Link>
             <ul className="submenu">
-              <li><Link href={route('products.index', { title: 'Rayon fabrics' })}>Rayon</Link></li>
-              <li><Link href={route('products.index', { title: 'Nylon fabrics' })}>Nylon</Link></li>
-              <li><Link href={route('products.index', { title: 'Polyester fabrics' })}>Polyester</Link></li>
+                <li>
+                    <Link href={route('products.index', { title: 'Rayon Fabrics', filter: 'rayon' })}>
+                        Rayon
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route('products.index', { title: 'Nylon Fabrics', filter: 'nylon' })}>
+                        Nylon
+                    </Link>
+                </li>
+                <li>
+                    <Link href={route('products.index', { title: 'Polyester Fabrics', filter: 'polyester' })}>
+                        Polyester
+                    </Link>
+                </li>
             </ul>
-          </li>
-        </ul>
-      </li>
+        </li>
+    </ul>
+</li>
 
       <li className={`has-dropdown ${isMobile && openDropdowns['shop'] ? 'open' : ''}`}>
         <Link

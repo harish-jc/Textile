@@ -18,17 +18,30 @@ const Auth = () => {
                     <form className="space-y-4">
                         {!isSignIn && (
                             <div>
-                                <label className="block  font-medium text-gray-700">Name</label>
+                                <label className="block font-medium text-gray-700">Name</label>
                                 <input
                                     type="text"
                                     placeholder="Your Name"
+                                    required
                                     className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 />
                             </div>
                         )}
 
                         <div>
-                            <label className="block  font-medium text-gray-700">Email</label>
+                            <label className="block font-medium text-gray-700">Phone Number</label>
+                            <input
+                                type="tel"
+                                placeholder="10-digit number"
+                                required
+                                pattern="[0-9]{10}"
+                                maxLength="10"
+                                className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block font-medium text-gray-700">Email</label>
                             <input
                                 type="email"
                                 placeholder="you@example.com"
@@ -37,20 +50,22 @@ const Auth = () => {
                         </div>
 
                         <div>
-                            <label className="block  font-medium text-gray-700">Password</label>
+                            <label className="block font-medium text-gray-700">Password</label>
                             <input
                                 type="password"
                                 placeholder="••••••••"
+                                required
                                 className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
 
                         {!isSignIn && (
                             <div>
-                                <label className="block  font-medium text-gray-700">Confirm Password</label>
+                                <label className="block font-medium text-gray-700">Confirm Password</label>
                                 <input
                                     type="password"
                                     placeholder="••••••••"
+                                    required
                                     className="w-full mt-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
                                 />
                             </div>
@@ -64,7 +79,7 @@ const Auth = () => {
                         </button>
                     </form>
 
-                    <p className=" text-center text-gray-600 mt-4">
+                    <p className="text-center text-gray-600 mt-4">
                         {isSignIn ? (
                             <>
                                 Don't have an account?{' '}

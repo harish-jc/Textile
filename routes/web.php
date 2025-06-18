@@ -32,13 +32,14 @@ Route::get('/products/{id}', [ProductController::class, 'show'])
     ->where('id', '[0-9]+')
     ->name('products.show');
     
-Route::get('/products/{title}', function ($title) {
-    return Inertia::render(
-        'Website/Product/products',
-        ['title' => ucwords(str_replace('-', ' ', $title))]
-    );
-})->name('products.index');
-
+// Route::get('/products/{title}', function ($title) {
+//     return Inertia::render(
+//         'Website/Product/products',
+//         ['title' => ucwords(str_replace('-', ' ', $title))]
+//     );
+// })->name('products.index');
+Route::get('/products/{filter?}', [ProductController::class, 'index'])
+    ->name('products.index');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
