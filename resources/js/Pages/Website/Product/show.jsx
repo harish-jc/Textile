@@ -1,113 +1,104 @@
 import React, { useState } from 'react';
-import { useForm, usePage, router } from '@inertiajs/react';
-import { Link } from '@inertiajs/react';
+import { useForm, router } from '@inertiajs/react';
 import FrontLayout from '@/Layouts/FrontLayout';
-import '@/Pages/Home/Home.css'; // Importing CSS for styling
+import '@/Pages/Home/Home.css';
+import BuyerRfqForm from '../RFQ/buyerrfqform';
+
+const products = [
+    {
+        id: 1,
+        name: 'Cotton Poplin (Premium)',
+        price: '550',
+        imgSrc: '/storage/img/products/f-product-1-1.png',
+        offer: "35% off",
+        rating: 5,
+        reviews: 25,
+        title: "Premium Cotton Poplin Fabric",
+        originalPrice: "850",
+        discountedPrice: "550",
+        specifications: {
+            width: '44 inches',
+            weight: '120 GSM',
+            composition: '100% Cotton',
+            color: 'White'
+        }
+    },
+    {
+        id: 2,
+        name: 'Silk Chiffon (Printed Floral)',
+        price: '1,350',
+        imgSrc: '/storage/img/products/f-product-1-5.png',
+        offer: "25% off",
+        rating: 4,
+        reviews: 18,
+        title: "Luxury Silk Chiffon Fabric",
+        originalPrice: "1,800",
+        discountedPrice: "1,350",
+        specifications: {
+            width: '54 inches',
+            weight: '60 GSM',
+            composition: '100% Silk',
+            color: 'Floral Print'
+        }
+    },
+    {
+        id: 3,
+        name: 'Linen-Cotton Blend (Natural)',
+        price: '850',
+        imgSrc: '/storage/img/products/f-product-1-3.png',
+        offer: "15% off",
+        rating: 4.5,
+        reviews: 32,
+        title: "Breathable Linen-Cotton Mix",
+        originalPrice: "1,000",
+        discountedPrice: "850",
+        specifications: {
+            width: '58 inches',
+            weight: '180 GSM',
+            composition: '55% Linen, 45% Cotton',
+            color: 'Natural Beige'
+        }
+    },
+    {
+        id: 4,
+        name: 'Wool Tweed (Charcoal)',
+        price: '1,500',
+        imgSrc: '/storage/img/products/f-product-1-4.png',
+        offer: "20% off",
+        rating: 4.8,
+        reviews: 14,
+        title: "Premium Wool Tweed Fabric",
+        originalPrice: "1,875",
+        discountedPrice: "1,500",
+        specifications: {
+            width: '60 inches',
+            weight: '320 GSM',
+            composition: '100% Wool',
+            color: 'Charcoal Grey'
+        }
+    },
+];
 
 const Show = ({ product }) => {
     const [activeTab, setActiveTab] = useState('Description');
     const { post } = useForm();
     const [showQuickView, setShowQuickView] = useState(false);
-    const [quickViewProduct, setQuickViewProduct] = useState(null);
+    const [quantity, setQuantity] = useState(1);
 
-    const products = [
-        {
-            id: 1,
-            name: 'Cotton Poplin (Premium)',
-            price: '₹550',
-            imgSrc: '/storage/img/products/f-product-1-1.png',
-            offer: "35% off",
-            rating: 5,
-            reviews: 25,
-            title: "Premium Cotton Poplin Fabric",
-            originalPrice: "₹850",
-            discountedPrice: "₹550",
-            specifications: {
-                width: '44 inches',
-                weight: '120 GSM',
-                composition: '100% Cotton',
-                color: 'White'
-            }
-        },
-        {
-            id: 2,
-            name: 'Silk Chiffon (Printed Floral)',
-            price: '₹1,350',
-            imgSrc: '/storage/img/products/f-product-1-5.png',
-            offer: "25% off",
-            rating: 4,
-            reviews: 18,
-            title: "Luxury Silk Chiffon Fabric",
-            originalPrice: "₹1,800",
-            discountedPrice: "₹1,350",
-            specifications: {
-                width: '54 inches',
-                weight: '60 GSM',
-                composition: '100% Silk',
-                color: 'Floral Print'
-            }
-        },
-        {
-            id: 3,
-            name: 'Linen-Cotton Blend (Natural)',
-            price: '₹850',
-            imgSrc: '/storage/img/products/f-product-1-3.png',
-            offer: "15% off",
-            rating: 4.5,
-            reviews: 32,
-            title: "Breathable Linen-Cotton Mix",
-            originalPrice: "₹1,000",
-            discountedPrice: "₹850",
-            specifications: {
-                width: '58 inches',
-                weight: '180 GSM',
-                composition: '55% Linen, 45% Cotton',
-                color: 'Natural Beige'
-            }
-        },
-        {
-            id: 4,
-            name: 'Wool Tweed (Charcoal)',
-            price: '₹1,500',
-            imgSrc: '/storage/img/products/f-product-1-4.png',
-            offer: "20% off",
-            rating: 4.8,
-            reviews: 14,
-            title: "Premium Wool Tweed Fabric",
-            originalPrice: "₹1,875",
-            discountedPrice: "₹1,500",
-            specifications: {
-                width: '60 inches',
-                weight: '320 GSM',
-                composition: '100% Wool',
-                color: 'Charcoal Grey'
-            }
-        },
-    ];
-    const renderRating = (rating) => {
-        return Array.from({ length: 5 }).map((_, i) => (
-            <i key={i} className={`icon-star ${i < rating ? "filled" : ""}`}></i>
-        ));
-    };
+    // Parse price from string like "550"
+    const pricePerMeter = parseFloat(product.price.replace(/[^0-9.]/g, '')) || 0;
+    const totalPrice = (pricePerMeter * quantity).toFixed(2);
+
     const handleAddToCart = () => {
         post(route('cart.add', product.id), {
             data: {
                 id: product.id,
-                quantity: 1
+                quantity: quantity,
             },
             onSuccess: () => {
-                router.visit(route('cart.index')); // Navigate to Cart page after success
+                router.visit(route('cart.index'));
             },
         });
-    };
-
-    const handleQuickView = (product) => {
-        setQuickViewProduct(product);
-        setShowQuickView(true);
-    };
-
-    const closeQuickView = () => {
-        setShowQuickView(false);
     };
 
     return (
@@ -123,78 +114,91 @@ const Show = ({ product }) => {
                         <div className="md:w-1/2">
                             <h1 className="text-2xl font-bold mb-3 lycoris-color">{product.name}</h1>
 
-                            {/* Star Rating Component */}
+                            {/* Rating */}
                             <div className="flex items-center mb-4">
-                                <div className="flex">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <svg
-                                            key={star}
-                                            className={`w-5 h-5 ${star <= Math.round(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                    ))}
-                                </div>
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <svg
+                                        key={star}
+                                        className={`w-5 h-5 ${star <= Math.round(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                                        fill="currentColor"
+                                        viewBox="0 0 20 20"
+                                    >
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                ))}
                                 <span className="ml-2 text-gray-600">{product.rating.toFixed(1)}/5.0</span>
                             </div>
 
-                            <p className="text-2xl font-semibold text-green-600 mb-6">{product.price}</p>
-                            <p className="text-gray-700 mb-6 leading-relaxed">{product.description}</p>
-                            <p className="text-gray-500 mb-6 flex items-center">
-                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path strokeLinecap="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                {product.address}
-                            </p>
+                            <p className="text-lg font-semibold text-green-600 mb-4">&#8377;{product.price} / meter</p>
+                            <p className="text-gray-700 mb-4">{product.description}</p>
 
+                            {/* Quantity + Total  */}
+                            <div className="mb-6">
+                                <label className="block mb-1 font-medium text-gray-700">
+                                    Quantity (in meters)
+                                </label>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        className="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xl"
+                                        onClick={() => setQuantity(prev => Math.max(0.25, (prev - 0.25)))}
+                                    >
+                                        −
+                                    </button>
+                                    <span className="px-3 py-1 border rounded bg-white w-20 text-center">{quantity}</span>
+                                    <button
+                                        type="button"
+                                        className="px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xl"
+                                        onClick={() => setQuantity(prev => parseFloat((prev + 0.25).toFixed(2)))}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <p className="mt-2 text-gray-700">
+                                    <strong>Total Price:</strong> &#8377;{totalPrice}
+                                </p>
+                            </div>
+
+
+                            {/* Buttons */}
                             <div className="mt-6 flex items-center gap-3">
-                                {/* Add to Cart Button (Primary) */}
                                 <button
                                     onClick={handleAddToCart}
-                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex-1 sm:flex-none"
+                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                                 >
                                     Add to Cart
                                 </button>
-
-
                                 <button
                                     type="button"
-                                    className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex-1 sm:flex-none"
+                                    className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700"
                                     onClick={() => alert('Added to Wishlist!')}
                                 >
-                                    <i className="fas fa-heart text-white-700"></i>  {/* For wishlist */}
-                                    <span className="absolute top-full mt-2 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-800 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                                        Add To Wishlist
-                                    </span>
+                                    <i className="fas fa-heart"></i>
                                 </button>
                                 <button
                                     type="button"
-                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-black transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex-1 sm:flex-none"
+                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-black"
                                     onClick={() => setShowQuickView(true)}
                                     aria-label="Quick view"
                                 >
                                     <i className="fas fa-eye"></i>
                                 </button>
+                                <BuyerRfqForm />
+
                             </div>
 
                             {/* Quick View Modal */}
                             {showQuickView && (
                                 <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
                                     <div className="relative max-w-3xl w-full p-4">
-                                        {/* Close Icon */}
                                         <button
                                             className="absolute top-2 right-2 text-white text-2xl"
                                             onClick={() => setShowQuickView(false)}
                                         >
                                             &times;
                                         </button>
-
-                                        {/* Full Image */}
                                         <img
-                                            src={product.image} // You can pass product.image as prop
+                                            src={product.image}
                                             alt={product.name}
                                             className="w-full h-auto object-contain rounded-lg shadow-lg"
                                         />
@@ -287,11 +291,11 @@ const Show = ({ product }) => {
                                             </div> */}
                                             {/* <h5 className="xc-product-eight__price"><del className='pr-2'>{product.originalPrice}</del> {product.discountedPrice}</h5> */}
                                             <h3 className="xc-product-eight__title"><a href="#">{product.title}</a></h3>
-                                             <div className="mt-0">
+                                            <div className="mt-0">
                                                 {product.originalPrice && (
-                                                    <span className="text-gray-400 text-sm line-through ml-0 pr-2">{product.originalPrice}</span>
+                                                    <span className="text-gray-400 text-sm line-through ml-0 pr-2">&#8377;{product.originalPrice}</span>
                                                 )}
-                                                <span className="text-gray-900 text-xl font-bold">{product.price}</span>
+                                                <span className="text-gray-900 text-xl font-bold">&#8377;{product.price}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -301,7 +305,6 @@ const Show = ({ product }) => {
                     </div>
                 </div>
             </section>
-
         </>
     );
 };

@@ -36,9 +36,9 @@ export default function Footer() {
                                 <div className="xc-footer-one__widget xc-widget-col-2">
                                     <h3 className="xc-footer-one__widget-title" style={{ color: '#fff' }}>Quick links</h3>
                                     <ul className="xc-footer-one__nav">
-                                        <li><a href="/" style={{ color: '#ccc' }}>About us</a></li>
+                                        <li><a href={route('aboutus')} style={{ color: '#ccc' }}>About us</a></li>
                                         <li><a href="/" style={{ color: '#ccc' }}>Our story</a></li>
-                                        <li><a href="/" style={{ color: '#ccc' }}>Our Vendor</a></li>
+                                        <li><a href={route('ourvendors')} style={{ color: '#ccc' }}>Our Vendor</a></li>
                                         <li><a href="/" style={{ color: '#ccc' }}>Latest News</a></li>
                                         <li><a href="/" style={{ color: '#ccc' }}>Privacy Policy</a></li>
                                     </ul>

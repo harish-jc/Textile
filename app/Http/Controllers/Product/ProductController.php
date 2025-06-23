@@ -14,19 +14,19 @@ class ProductController extends Controller
         $title = request()->query('title', 'Our Products');
         $filter = request()->query('filter');
 
-        return Inertia::render('Products/Index', [
+        return Inertia::render('Website/Product/products', [
             'title' => $title,
             'filter' => $filter
         ]);
     }
-    
+
     public function show($id)
     {
         // You can fetch real data here from DB
         $product = [
             'id' => $id,
-            'name' => 'Jute Fabric ' . $id,
-            'price' => '₹1,000',
+            'name' => 'Jute Fabric ',
+            'price' => '300',
             'image' => '/storage/img/products/f-product-1-2.png',
             'description' => 'This is a detailed description of the product.',
             'address' => '123 Sample Street, Sample City, Sample State, 123456',

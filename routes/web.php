@@ -31,7 +31,6 @@ Route::get('/', function () {
 Route::get('/products/{id}', [ProductController::class, 'show'])
     ->where('id', '[0-9]+')
     ->name('products.show');
-    
 // Route::get('/products/{title}', function ($title) {
 //     return Inertia::render(
 //         'Website/Product/products',
@@ -46,32 +45,55 @@ Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
 
+Route::get('/aboutus', function () {
+    return Inertia::render('Website/AboutUs/aboutus');
+})->name('aboutus');
+
 Route::get('/checkout', function () {
     return Inertia::render('Website/Checkout/checkout');
 })->name('checkout');
 
-Route::get('/collection/{title}',[ProductController::class,'collection'])->name('collection.show');
-
+Route::get('/collection/{title}', [ProductController::class, 'collection'])->name('collection.show');
 Route::get('/contact', function () {
     return Inertia::render('Website/Contact/contact');
 })->name('contact');
 
+Route::get('/ourvendors', function () {
+    return Inertia::render('Website/Vendors/ourvendor');
+})->name('ourvendors');
+
 Route::get('/profile', function () {
-    return Inertia::render('Website/Auth/auth');
+    if (Auth::check()) {
+        return redirect()->route('dashboard');
+    } else {
+        return Inertia::render('Website/Auth/auth');
+    }
 })->name('profile');
 
-Route::get('/wishlist',function(){
+Route::get('/buyer-rfq-form',function(){
+    return Inertia::render('Website/RFQ/buyerrfqform');
+})->name('buyer-rfq-form');
+
+Route::get('/compare', function () {
+    return Inertia::render('Website/Product/compare');
+})->name('compare-products');
+
+Route::get('/wishlist', function () {
     return Inertia::render('Website/Cart/wishlist');
 })->name('wishlist');
 // Route::get('/wishlist', [CartController::class, 'wishlistIndex'])->name('wishlist.index');
 // Route::delete('/wishlist/remove/{id}', [CartController::class, 'wishlistRemove'])->name('wishlist.remove');
 
+// Smart Redirect: If logged in → dashboard, else → signin
+Route::middleware('auth')->get('/dashboard', fn() => Inertia::render('Dashboard'))->name('dashboard');
+
 // User dashboard (for regular users, if applicable)
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
-});
+Route::post('/signin', [AuthController::class, 'userLogin'])->name('signin');
+Route::post('/signup', [AuthController::class, 'userRegister'])->name('signup');
+Route::get('/signout', [AuthController::class, 'userLogout'])->name('signout');
+// Change password
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password.submit');
+Route::post('/profile-update', [AuthController::class, 'userUpdateProfile'])->name('profile.userUpdate');
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -83,11 +105,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
     // Admin-only protected routes
     Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
         // Change password
         Route::get('/change-password', fn() => Inertia::render('Admin/Auth/ChangePassword'))->name('change-password');
         Route::post('/change-password', [AuthController::class, 'changePassword'])->name('change-password.submit');

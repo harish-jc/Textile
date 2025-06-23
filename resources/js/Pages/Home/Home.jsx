@@ -68,8 +68,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Jute Cotton",
-            originalPrice: "₹450",
-            discountedPrice: "₹289",
+            originalPrice: "450",
+            discountedPrice: "289",
         },
         {
             id: 2,
@@ -78,8 +78,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Visco Rayon",
-            originalPrice: "₹589",
-            discountedPrice: "₹289",
+            originalPrice: "589",
+            discountedPrice: "289",
         },
         {
             id: 3,
@@ -88,8 +88,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Tricot Nylon",
-            originalPrice: "₹239",
-            discountedPrice: "₹209",
+            originalPrice: "239",
+            discountedPrice: "209",
         },
         {
             id: 4,
@@ -98,8 +98,8 @@ export default function Home() {
             rating: 5,
             reviews: 25,
             title: "Cupro Rayon",
-            originalPrice: "₹150",
-            discountedPrice: "₹100",
+            originalPrice: "150",
+            discountedPrice: "100",
         },
     ];
 
@@ -173,22 +173,22 @@ export default function Home() {
             id: 1,
             imgSrc: "/storage/img/products/product-tending-1.jpg",
             title: "Taffeta Polyester",
-            originalPrice: "₹489",
-            discountedPrice: "₹289"
+            originalPrice: "489",
+            discountedPrice: "289"
         },
         {
             id: 2,
             imgSrc: "/storage/img/products/product-tending-2.jpg",
             title: "Silk Blend",
-            originalPrice: "₹599",
-            discountedPrice: "₹399"
+            originalPrice: "599",
+            discountedPrice: "399"
         },
         {
             id: 3,
             imgSrc: "/storage/img/products/product-tending-3.jpg",
             title: "Cotton Fabric",
-            originalPrice: "₹199",
-            discountedPrice: "₹149"
+            originalPrice: "199",
+            discountedPrice: "149"
         }
     ];
 
@@ -383,35 +383,35 @@ export default function Home() {
                             <div className="row gutter-y-20">
                                 <div className="col-md-6 col-xl-3">
                                     <div className="xc-banner-eight__item">
-                                        <Link href={route('collection.show', { title: 'gujarat' })}>
+                                        {/* <Link href={route('collection.show', { title: 'gujarat' })}> */}
+                                        <Link href={route('products.index', { title: 'Cotton Fabrics', filter: 'cotton' })}>
                                             <div className="xc-banner-eight__img w-img">
-                                                <img src="/storage/img/banner/banner-8-1.png" alt="banner" />
+                                                <img src="/storage/img/banner/banner-8-2.png" alt="banner" />
+                                            </div>
+                                            <div className="xc-banner-eight__content">
+                                                <h3 className="xc-banner-eight__title">
+                                                    Natural Fabrics
+                                                    {/* <a href="#" className="uppercase">Gujarat</a> */}
+                                                </h3>
+                                                <span className=".xc-banner-eight__subtitle">Cotton</span>
                                             </div>
                                         </Link>
-                                        <div className="xc-banner-eight__content">
-                                            <h3 className="xc-banner-eight__title">
-                                                <Link href={route('collection.show', { title: 'gujarat' })}>Gujarat</Link>
-                                                {/* <a href="#" className="uppercase">Gujarat</a> */}
-                                            </h3>
-                                            <span className=".xc-banner-eight__subtitle">Hot Collection</span>
-                                        </div>
                                     </div>
                                 </div>
                                 <div className="col-md-6 col-xl-3">
                                     <div className="xc-banner-eight__item">
-                                        <Link href={route('collection.show', { title: 'hyderabad' })}>
+                                        <Link href={route('products.index', { title: 'Rayon Fabrics', filter: 'rayon' })}>
                                             <div className="xc-banner-eight__img w-img">
-                                                <img src="/storage/img/banner/banner-8-2.png" alt="banner" />
+                                                <img src="/storage/img/banner/banner-8-1.png" alt="banner" />
                                             </div>
-                                        </Link>
                                         <div className="xc-banner-eight__content">
                                             <h3 className="xc-banner-eight__title">
-                                                <Link href={route('collection.show', { title: 'hyderabad' })}>Hyderabad</Link>
-
+                                                Synthetic Fabrics
                                                 {/* <a href="#" className="uppercase">Hyderabad</a> */}
                                             </h3>
-                                            <span className=".xc-banner-eight__subtitle">Hot Collection</span>
+                                            <span className=".xc-banner-eight__subtitle">Rayon Fabrics</span>
                                         </div>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className="col-xl-6">
@@ -471,9 +471,9 @@ export default function Home() {
                                                 <h3 className="xc-product-eight__title"><a href="#">{product.title}</a></h3>
                                                 {/* <h5 className="xc-product-eight__price"><del className="pr-2">{product.originalPrice}</del> {product.discountedPrice}</h5> */}
                                                 {product.discountedPrice && (
-                                                    <span className="text-gray-400 text-sm line-through pr-2">{product.discountedPrice}</span>
+                                                    <span className="text-gray-400 text-sm line-through pr-2">&#8377;{product.discountedPrice}</span>
                                                 )}
-                                                <span className="text-gray-900 text-xl font-bold">{product.originalPrice}</span>
+                                                <span className="text-gray-900 text-xl font-bold">&#8377;{product.originalPrice}</span>
                                             </div>
                                         </div>
                                     </div>

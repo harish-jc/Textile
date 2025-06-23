@@ -665,7 +665,7 @@ textarea {
   width: 100%;
   line-height: 60px;
   font-size: 16px;
-  border: 2px solid #ffffff;
+  /* border: 2px solid #ffffff; */
   color: var(--swiftcart-black);
   padding-left: 29px;
   padding-right: 29px;

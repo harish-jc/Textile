@@ -72,16 +72,16 @@ const Checkout = () => {
                                 <img src={item.image} alt="" className="w-12 h-12 object-cover rounded" />
                                 <div className="ml-3">
                                     <p className="font-medium ">{item.name}</p>
-                                    <p className="">{item.qty} × ₹{item.price}</p>
+                                    <p className="">{item.qty} × &#8377;{item.price}</p>
                                 </div>
-                                <p className="ml-auto font-medium ">₹{item.qty * item.price}</p>
+                                <p className="ml-auto font-medium ">&#8377;{item.qty * item.price}</p>
                             </li>
                         ))}
                     </ul>
                     <hr className="my-3" />
                     <div className="flex justify-between  mb-1">
                         <span>Subtotal</span>
-                        <span>₹{subtotal}</span>
+                        <span>&#8377;{subtotal}</span>
                     </div>
                     <div className="flex justify-between  mb-1">
                         <span>Shipping</span>
@@ -90,7 +90,7 @@ const Checkout = () => {
                     <hr className="my-3" />
                     <div className="flex justify-between font-semibold text-black">
                         <span>Total</span>
-                        <span>₹{total}</span>
+                        <span>&#8377;{total}</span>
                     </div>
                 </aside>
             </div>

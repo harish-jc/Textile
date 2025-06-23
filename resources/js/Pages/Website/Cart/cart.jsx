@@ -107,7 +107,7 @@ const Cart = () => {
                                                     </span>
                                                 </div>
                                             </td>
-                                            <td className="p-4">₹{item.price}</td>
+                                            <td className="p-4">&#8377;{item.price}</td>
                                             <td className="p-4">
                                                 <div className="flex items-center gap-2">
                                                     <button
@@ -125,7 +125,7 @@ const Cart = () => {
                                                     </button>
                                                 </div>
                                             </td>
-                                            <td className="p-4 font-semibold">₹{item.price * item.quantity}</td>
+                                            <td className="p-4 font-semibold">&#8377;{item.price * item.quantity}</td>
                                             <td className="p-4">
                                                 <button
                                                     className="text-red-600 hover:text-red-800"
@@ -148,7 +148,7 @@ const Cart = () => {
                             <div className="space-y-3">
                                 <div className="flex justify-between">
                                     <span>Subtotal:</span>
-                                    <span>₹{subtotal}</span>
+                                    <span>&#8377;{subtotal}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span>Shipping:</span>
@@ -156,7 +156,7 @@ const Cart = () => {
                                 </div>
                                 <div className="flex justify-between font-semibold border-t pt-3 mt-3">
                                     <span>Total:</span>
-                                    <span>₹{subtotal}</span>
+                                    <span>&#8377;{subtotal}</span>
                                 </div>
                             </div>
                             {/* <button className="mt-6 w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700 transition">
