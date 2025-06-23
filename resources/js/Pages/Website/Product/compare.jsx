@@ -15,8 +15,8 @@ const Compare = () => {
     if (products.length === 0) {
         return (
             <FrontLayout>
-                <div className="py-10 px-4 sm:px-10 text-center">
-                    <h2 className="text-xl font-bold text-black">No products to compare.</h2>
+                <div className="py-24 px-4 sm:px-10 text-center">
+                    <h2 className="text-xl font-bold text-black">No products to compare!</h2>
                 </div>
             </FrontLayout>
         );
