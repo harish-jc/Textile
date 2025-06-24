@@ -78,6 +78,19 @@ Route::get('/compare', function () {
     return Inertia::render('Website/Product/compare');
 })->name('compare-products');
 
+Route::get('/faqs', function () {
+    return Inertia::render('Website/Faqs/faqs');
+})->name('faqs');
+
+Route::get('/privacy-policy', function () {
+    return Inertia::render('Website/Privacypolicy/privacypolicy');
+})->name('privacypolicy');
+
+Route::get('/terms-and-conditions', function () {
+    return Inertia::render('Website/Termsandconditions/termsandconditions');
+})->name('termsandconditions');
+
+
 Route::get('/wishlist', function () {
     return Inertia::render('Website/Cart/wishlist');
 })->name('wishlist');

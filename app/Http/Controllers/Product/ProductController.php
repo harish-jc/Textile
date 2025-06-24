@@ -25,9 +25,9 @@ class ProductController extends Controller
         // You can fetch real data here from DB
         $product = [
             'id' => $id,
-            'name' => 'Jute Fabric ',
-            'price' => '300',
-            'image' => '/storage/img/products/f-product-1-2.png',
+            'title' => 'Jute Fabric ',
+            'originalPrice' => '300',
+            'imgSrc' => '/storage/img/products/f-product-1-5.png',
             'description' => 'This is a detailed description of the product.',
             'address' => '123 Sample Street, Sample City, Sample State, 123456',
             'rating' => 4.5,

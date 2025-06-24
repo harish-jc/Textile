@@ -5,7 +5,7 @@ import '@/Pages/Home/Home.css';
 const Contact = () => {
   return (
     <FrontLayout>
-      <section className="py-16 px-4 min-h-screen">
+      <section className="py-16 px-4 min-h-screen container">
         <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-6 sm:p-8">
           <h2 className="text-xl font-semibold text-center text-gray-800 mb-6">Contact Us</h2>
 

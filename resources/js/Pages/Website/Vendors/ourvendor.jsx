@@ -74,7 +74,7 @@ function OurVendors() {
     return (
         <FrontLayout>
             <Head title="Our Vendors" />
-            <div className="xc-seller-two pt-20 pb-20">
+            <div className="xc-seller-two pt-20 pb-20 container">
                 <div className="container">
                     <div className="xc-seller-two__wrapper">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

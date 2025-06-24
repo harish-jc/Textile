@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
+import { message /*, Modal*/ } from 'antd';
 
 const Header = () => {
+  const { auth } = usePage().props;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openDropdowns, setOpenDropdowns] = useState({});
 
@@ -12,80 +14,88 @@ const Header = () => {
     }));
   };
 
+  // Notification version
+  const handleWishlistClick = (e) => {
+    if (!auth?.user) {
+      e.preventDefault();
+      message.warning('Please log in to view your wishlist. Redirecting...', 3);
+      setTimeout(() => {
+        router.visit(route('profile'));
+      }, 3000);
+    } else {
+      router.visit(route('dashboard', { tab: 'wishlist' }));
+    }
+  };
+
+  // Optional: Modal version (use this instead if you prefer)
+  /*
+  const handleWishlistClick = (e) => {
+    if (!auth?.user) {
+      e.preventDefault();
+      Modal.info({
+        title: 'Login Required',
+        centered: true,
+        width: 360,
+        okText: 'Login',
+        onOk: () => router.visit(route('login')),
+        content: (
+          <div className="text-center">
+            <img
+              src="/storage/img/login-required.png"
+              alt="Login Required"
+              className="mx-auto w-28 h-auto mb-2"
+            />
+            <p className="text-sm text-gray-600">Please log in to use the wishlist feature.</p>
+          </div>
+        ),
+      });
+    }
+  };
+  */
+
   const MenuItems = ({ isMobile = false }) => (
     <ul className="ul-0">
       <li><Link href="/">Home</Link></li>
 
       <li className={`has-dropdown ${isMobile && openDropdowns['fabrics'] ? 'open' : ''}`}>
-    <Link
-        href="#"
-        onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('fabrics'))}
-    >
-        Fabrics
-    </Link>
-    <ul className="submenu">
-        <li className={`has-dropdown ${isMobile && openDropdowns['natural'] ? 'open' : ''}`}>
+        <Link
+          href="#"
+          onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('fabrics'))}
+        >
+          Fabrics
+        </Link>
+        <ul className="submenu">
+          <li className={`has-dropdown ${isMobile && openDropdowns['natural'] ? 'open' : ''}`}>
             <Link
-                href="#"
-                onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('natural'))}
+              href="#"
+              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('natural'))}
             >
-                Natural Fabrics
+              Natural Fabrics
             </Link>
             <ul className="submenu">
-                <li>
-                    <Link href={route('products.index', { title: 'Cotton Fabrics', filter: 'cotton' })}>
-                        Cotton
-                    </Link>
-                </li>
-                <li>
-                    <Link href={route('products.index', { title: 'Silk Fabrics', filter: 'silk' })}>
-                        Silk
-                    </Link>
-                </li>
-                <li>
-                    <Link href={route('products.index', { title: 'Wool Fabrics', filter: 'wool' })}>
-                        Wool
-                    </Link>
-                </li>
-                <li>
-                    <Link href={route('products.index', { title: 'Jute Fabrics', filter: 'jute' })}>
-                        Jute
-                    </Link>
-                </li>
-                <li>
-                    <Link href={route('products.index', { title: 'Linen Fabrics', filter: 'linen' })}>
-                        Linen
-                    </Link>
-                </li>
+              <li><Link href={route('products.index', { title: 'Cotton Fabrics', filter: 'cotton' })}>Cotton</Link></li>
+              <li><Link href={route('products.index', { title: 'Silk Fabrics', filter: 'silk' })}>Silk</Link></li>
+              <li><Link href={route('products.index', { title: 'Wool Fabrics', filter: 'wool' })}>Wool</Link></li>
+              <li><Link href={route('products.index', { title: 'Jute Fabrics', filter: 'jute' })}>Jute</Link></li>
+              <li><Link href={route('products.index', { title: 'Linen Fabrics', filter: 'linen' })}>Linen</Link></li>
             </ul>
-        </li>
-        <li className={`has-dropdown ${isMobile && openDropdowns['synthetic'] ? 'open' : ''}`}>
+          </li>
+
+          <li className={`has-dropdown ${isMobile && openDropdowns['synthetic'] ? 'open' : ''}`}>
             <Link
-                href="#"
-                onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('synthetic'))}
+              href="#"
+              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('synthetic'))}
             >
-                Synthetic Fabrics
+              Synthetic Fabrics
             </Link>
             <ul className="submenu">
-                <li>
-                    <Link href={route('products.index', { title: 'Rayon Fabrics', filter: 'rayon' })}>
-                        Rayon
-                    </Link>
-                </li>
-                <li>
-                    <Link href={route('products.index', { title: 'Nylon Fabrics', filter: 'nylon' })}>
-                        Nylon
-                    </Link>
-                </li>
-                <li>
-                    <Link href={route('products.index', { title: 'Polyester Fabrics', filter: 'polyester' })}>
-                        Polyester
-                    </Link>
-                </li>
+              <li><Link href={route('products.index', { title: 'Rayon Fabrics', filter: 'rayon' })}>Rayon</Link></li>
+              <li><Link href={route('products.index', { title: 'Nylon Fabrics', filter: 'nylon' })}>Nylon</Link></li>
+              <li><Link href={route('products.index', { title: 'Polyester Fabrics', filter: 'polyester' })}>Polyester</Link></li>
             </ul>
-        </li>
-    </ul>
-</li>
+          </li>
+        </ul>
+      </li>
 
       <li className={`has-dropdown ${isMobile && openDropdowns['shop'] ? 'open' : ''}`}>
         <Link
@@ -94,7 +104,6 @@ const Header = () => {
         >
           Shop
         </Link>
-
         <ul className="submenu">
           <li><Link href={route('products.index', { title: 'Our Products' })}>Shop</Link></li>
           <li><Link href={route('products.show', 2)}>Product Details</Link></li>
@@ -104,26 +113,12 @@ const Header = () => {
       </li>
 
       <li><Link href={route('contact')}>Contact</Link></li>
-      {/* <li>
-        <a
-          href="#footer"
-          onClick={(e) => {
-            e.preventDefault();
-            const footerEl = document.getElementById('footer');
-            footerEl?.scrollIntoView({ behavior: 'smooth' });
-          }}
-        >
-          Contact
-        </a>
-      </li> */}
-
     </ul>
   );
 
   return (
     <header style={{ backgroundColor: '#f8f9fa' }}>
-      <div className="xc-header-two xc-header-three shadow-md z-50 relative" id="xc-header-sticky" style={{ backgroundColor: '#fff' }}>
-
+      <div className="xc-header-two xc-header-three shadow-md z-50 relative" style={{ backgroundColor: '#fff' }}>
         <div className="container">
           <div className="xc-header-two__wrapper">
             <div className="xc-header-two__logo">
@@ -142,9 +137,14 @@ const Header = () => {
                 <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#007bff' }}>
                   <i className="fas fa-shopping-cart"></i>
                 </Link>
-                <Link href={route('wishlist')} className="xc-header-two__btn" style={{ color: '#dc3545' }}>
+                {/* Wishlist Button */}
+                <button
+                  onClick={handleWishlistClick}
+                  className="xc-header-two__btn"
+                  style={{ color: '#dc3545' }}
+                >
                   <i className="fas fa-heart"></i>
-                </Link>
+                </button>
                 <Link href={route('profile')} className="xc-header-two__btn" style={{ color: '#343a40' }}>
                   <i className="fas fa-user"></i>
                 </Link>
@@ -179,9 +179,15 @@ const Header = () => {
             <Link href={route('cart.index')} className="xc-header-two__btn" style={{ color: '#007bff' }}>
               <i className="fas fa-shopping-cart"></i>
             </Link>
-            <Link href={route('wishlist')} className="xc-header-two__btn" style={{ color: '#dc3545' }}>
+            {/* Wishlist Button */}
+            <button
+              onClick={handleWishlistClick}
+              className="xc-header-two__btn"
+              style={{ color: '#dc3545' }}
+            >
               <i className="fas fa-heart"></i>
-            </Link>
+            </button>
+
             <Link href={route('profile')} className="xc-header-two__btn" style={{ color: '#fff' }}>
               <i className="fas fa-user"></i>
             </Link>

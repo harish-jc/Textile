@@ -1,6 +1,22 @@
 import React from "react";
+import { router, usePage } from '@inertiajs/react';
+import { message /*, Modal*/ } from 'antd';
 
 export default function Footer() {
+    // Notification version
+    const { auth } = usePage().props;
+
+    const handleWishlistClick = (e) => {
+        if (!auth?.user) {
+            e.preventDefault();
+            message.warning('Please log in to view your wishlist. Redirecting...', 3);
+            setTimeout(() => {
+                router.visit(route('profile'));
+            }, 3000);
+        } else {
+            router.visit(route('dashboard', { tab: 'wishlist' }));
+        }
+    };
     return (
         <footer id="footer">
             <div className="xc-footer-one pt-10" style={{ backgroundColor: '#000', color: '#ccc' }}>
@@ -17,7 +33,7 @@ export default function Footer() {
                                         </a>
                                     </div>
                                     <p className="xc-footer-one__about" style={{ color: '#ccc' }}>
-                                        4517 Washington Ave. Manchester, Kentucky 39495
+                                        Venkateswara Nagar, Rajamahendravaram, Andhra Pradesh 533106
                                     </p>
                                     <div className="xc-footer-one__cta">
                                         <a href="tel:(629)-555-0129" style={{ color: '#ccc' }}>
@@ -39,8 +55,8 @@ export default function Footer() {
                                         <li><a href={route('aboutus')} style={{ color: '#ccc' }}>About us</a></li>
                                         <li><a href="/" style={{ color: '#ccc' }}>Our story</a></li>
                                         <li><a href={route('ourvendors')} style={{ color: '#ccc' }}>Our Vendor</a></li>
-                                        <li><a href="/" style={{ color: '#ccc' }}>Latest News</a></li>
-                                        <li><a href="/" style={{ color: '#ccc' }}>Privacy Policy</a></li>
+                                        <li><a href={route('privacypolicy')} style={{ color: '#ccc' }}>Privacy Policy</a></li>
+                                        <li><a href={route('termsandconditions')} style={{ color: '#ccc' }}>Terms and Conditions</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -52,9 +68,13 @@ export default function Footer() {
                                     <ul className="xc-footer-one__nav">
                                         <li><a href={route('products.index', { title: 'Our Products' })} style={{ color: '#ccc' }}>Shop Product</a></li>
                                         <li><a href={route('cart.index')} style={{ color: '#ccc' }}>Shoping Cart</a></li>
-                                        <li><a href={route('wishlist')} style={{ color: '#ccc' }}>Wishlist</a></li>
-                                        <li><a href="/" style={{ color: '#ccc' }}>Our story</a></li>
-                                        <li><a href={route('contact')} style={{ color: '#ccc' }}>Customer Help</a></li>
+                                        <li>
+                                            <button onClick={handleWishlistClick} style={{ color: '#ccc', background: 'none', border: 'none', cursor: 'pointer' }}>
+                                                Wishlist
+                                            </button>
+                                        </li>
+
+                                        <li><a href={route('faqs')} style={{ color: '#ccc' }}>FAQs</a></li>
                                     </ul>
                                 </div>
                             </div>

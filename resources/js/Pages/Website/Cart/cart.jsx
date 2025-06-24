@@ -77,7 +77,7 @@ const Cart = () => {
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
     return (
-        <section className="py-10 bg-gray-50 min-h-screen">
+        <section className="py-10 bg-gray-50 min-h-screen container">
             <div className="container mx-auto px-4">
                 <h3 className="text-xl mb-6">Shopping Cart</h3>
 

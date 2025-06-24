@@ -13,7 +13,7 @@ const Checkout = () => {
     const total = subtotal + shipping;
 
     return (
-        <section className="py-8 bg-gray-50 min-h-screen">
+        <section className="py-8 bg-gray-50 min-h-screen container">
             <div className="container mx-auto px-4 flex flex-col lg:flex-row gap-6">
                 {/* 📦 Billing & Payment Form */}
                 <form className="w-full lg:w-2/3 bg-white p-6 rounded shadow">

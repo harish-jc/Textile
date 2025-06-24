@@ -9,37 +9,38 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 const testimonials = [
     {
-        name: "Ronald Richards",
-        country: "USA",
-        message: "Fantastic experience! The quality was great and shipping was fast. Highly recommend this store.",
-        image: "/storage/img/testimonial/testimonial-3-1.jpg",
+        id: 1,
+        image: "/storage/img/testimonial/testimonial-1-1.jpg",
+        name: "Women Billie",
+        role: "Customer",
+        message: "Emet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint",
+
     },
     {
-        name: "Jenny Wilson",
-        country: "UK",
-        message: "Amazing service and support. I’ll definitely be coming back for more!",
-        image: "/storage/img/testimonial/testimonial-3-1.jpg",
+        id: 2,
+        image: "/storage/img/testimonial/testimonial-1-2.jpg",
+        name: "Esther Howard",
+        role: "Customer",
+        message: "Emet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint",
+
     },
     {
-        name: "Cody Fisher",
-        country: "Australia",
-        message: "Top-notch quality. Exceeded my expectations in every way.",
-        image: "/storage/img/testimonial/testimonial-3-1.jpg",
+        id: 3,
+        image: "/storage/img/testimonial/testimonial-1-3.jpg",
+        name: "Wiliam Jonson",
+        role: "Customer",
+        message: "Emet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint",
+
     },
     {
-        name: "Jenny Wilson",
-        country: "UK",
-        message: "Amazing service and support. I’ll definitely be coming back for more!",
-        image: "/storage/img/testimonial/testimonial-3-1.jpg",
-    },
-    {
-        name: "Cody Fisher",
-        country: "Australia",
-        message: "Top-notch quality. Exceeded my expectations in every way.",
-        image: "/storage/img/testimonial/testimonial-3-1.jpg",
+        id: 4,
+        image: "/storage/img/testimonial/testimonial-1-2.jpg",
+        name: "Wiliam Bullack",
+        role: "Customer",
+        message: "Emet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint",
+
     },
 ];
-
 
 const AboutUs = () => {
     const [counters, setCounters] = useState({
@@ -244,10 +245,10 @@ const AboutUs = () => {
                                             />
                                         </div>
 
-                                        {/* Name and country below image */}
+                                        {/* Name and role below image */}
                                         <div className="">
                                             <h4 className="font-semibold text-lg">{item.name}</h4>
-                                            <p className="text-gray-700">Customer, {item.country}</p>
+                                            <p className="text-gray-700">Customer, {item.role}</p>
                                         </div>
 
                                         {/* Testimonial text */}

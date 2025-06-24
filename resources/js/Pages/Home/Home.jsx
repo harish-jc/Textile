@@ -9,8 +9,72 @@ import { Autoplay, EffectFade, EffectCoverflow } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/effect-coverflow';
 import FrontLayout from "@/Layouts/FrontLayout";
+import { usePage } from '@inertiajs/react';
+import { notification } from "antd";
+import { message } from 'antd';
+
+
 
 export default function Home() {
+    message.config({
+        duration: 2,           // Message stays for 2 seconds
+        maxCount: 3,           // Max visible messages
+    });
+    // show notification wishlist and cart if user not logged in
+    const { auth } = usePage().props;
+    const user = auth?.user;
+
+    const addToWishlist = (product) => {
+        if (!user) {
+            message.info('Please login to add to wishlist');
+            return;
+        }
+
+        const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
+        const alreadyExists = existing.find(item => item.id === product.id);
+
+        if (!alreadyExists) {
+            existing.push(product);
+            localStorage.setItem("wishlist", JSON.stringify(existing));
+            message.success('Added to wishlist!');
+        } else {
+            message.warning('Already in wishlist!');
+        }
+    };
+
+
+    const addToCart = (product) => {
+        if (!user) {
+            message.info('Please login to add to cart');
+            return;
+        }
+
+        const existing = JSON.parse(localStorage.getItem("cart")) || [];
+        const alreadyExists = existing.find(item => item.id === product.id);
+
+        if (!alreadyExists) {
+            existing.push({ ...product, quantity: 1 });
+            localStorage.setItem("cart", JSON.stringify(existing));
+            message.success('Added to cart!');
+        } else {
+            message.warning('Already in cart!');
+        }
+    };
+
+    // for quickview
+    const [quickViewProduct, setQuickViewProduct] = useState(null);
+    const [showQuickView, setShowQuickView] = useState(false);
+    const openQuickView = (product) => {
+        setQuickViewProduct(product);
+        setShowQuickView(true);
+    };
+
+    const closeQuickView = () => {
+        setShowQuickView(false);
+        setQuickViewProduct(null);
+    };
+
+
     //activetab
     const [activeTab, setActiveTab] = useState("all");
 
@@ -62,7 +126,7 @@ export default function Home() {
     // Product data to avoid repetition
     const products = [
         {
-            id: 1,
+            id: 61,
             imgSrc: "/storage/img/products/product-fas-5.jpg",
             offer: "30% off",
             rating: 5,
@@ -72,7 +136,7 @@ export default function Home() {
             discountedPrice: "289",
         },
         {
-            id: 2,
+            id: 62,
             imgSrc: "/storage/img/products/product-fas-6.jpg",
             offer: "50% off",
             rating: 5,
@@ -82,7 +146,7 @@ export default function Home() {
             discountedPrice: "289",
         },
         {
-            id: 3,
+            id: 63,
             imgSrc: "/storage/img/products/product-fas-7.jpg",
             offer: "30% off",
             rating: 5,
@@ -92,7 +156,7 @@ export default function Home() {
             discountedPrice: "209",
         },
         {
-            id: 4,
+            id: 64,
             imgSrc: "/storage/img/products/product-fas-8.jpg",
             offer: "35% off",
             rating: 5,
@@ -170,21 +234,21 @@ export default function Home() {
 
     const items = [
         {
-            id: 1,
+            id: 51,
             imgSrc: "/storage/img/products/product-tending-1.jpg",
             title: "Taffeta Polyester",
             originalPrice: "489",
             discountedPrice: "289"
         },
         {
-            id: 2,
+            id: 52,
             imgSrc: "/storage/img/products/product-tending-2.jpg",
             title: "Silk Blend",
             originalPrice: "599",
             discountedPrice: "399"
         },
         {
-            id: 3,
+            id: 53,
             imgSrc: "/storage/img/products/product-tending-3.jpg",
             title: "Cotton Fabric",
             originalPrice: "199",
@@ -204,7 +268,7 @@ export default function Home() {
             {/* <Header /> */}
             <FrontLayout>
 
-                <div className="xc-page-wrapper ">
+                <div className="xc-page-wrapper">
                     <div className="xc-scrollbar_progress"></div>
                     <div className="xc-body-overlay xc-close-toggler"></div>
 
@@ -262,8 +326,7 @@ export default function Home() {
                     </div>
 
                     {/* Slider Section */}
-                    <div style={{ width: '100%', maxWidth: '1200px', margin: '0 auto' }}>
-                        {/* Main Swiper */}
+                    <div className="slider-wrapper">
                         <Swiper
                             modules={[Autoplay, EffectFade]}
                             autoplay={{ delay: 4000, disableOnInteraction: false }}
@@ -274,51 +337,15 @@ export default function Home() {
                             effect="fade"
                             fadeEffect={{ crossFade: true }}
                             onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
-                            style={{ height: '600px' }}
+                            className="main-swiper"
                         >
                             {sliderItems.map((item) => (
                                 <SwiperSlide key={item.id}>
-                                    <div
-                                        className="slide-content-two-col"
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            height: '100%',
-                                        }}
-                                    >
-                                        {/* Main Image with white circle */}
-                                        <div
-                                            className="slide-image"
-                                            style={{
-                                                display: 'flex',
-                                                justifyContent: 'center',
-                                                alignItems: 'center',
-                                                position: 'relative',
-                                                height: '500px',
-                                                flex: '1',
-                                            }}
-                                        >
-                                            <div
-                                                style={{
-                                                    width: '500px',
-                                                    height: '500px',
-                                                    backgroundColor: '#fff',
-                                                    borderRadius: '50%',
-                                                    position: 'absolute',
-                                                    zIndex: 1,
-                                                }}
-                                            ></div>
-                                            <img
-                                                src={item.imgSrc}
-                                                alt={item.mainTitle}
-                                                style={{
-                                                    zIndex: 2,
-                                                    position: 'relative',
-                                                }}
-                                            />
+                                    <div className="slide-content">
+                                        <div className="slide-image">
+                                            <div className="circle-bg"></div>
+                                            <img src={item.imgSrc} alt={item.mainTitle} />
                                         </div>
-
                                         {/* Text */}
                                         <div className="slide-text" style={{ flex: '1', paddingLeft: '2rem' }}>
                                             <h4>{item.title}</h4>
@@ -335,18 +362,7 @@ export default function Home() {
                             ))}
                         </Swiper>
 
-                        {/* Thumbnail Swiper OUTSIDE the main Swiper */}
-                        <div className="mt-5"
-                            style={{
-                                // marginTop: '2rem',
-                                width: '100%',
-                                maxWidth: '400px',
-                                backgroundColor: '#fff',
-                                padding: '1rem',
-                                borderRadius: '10px',
-                                margin: 'auto',
-                            }}
-                        >
+                        <div className="thumb-swiper-wrapper">
                             <Swiper
                                 slidesPerView={4}
                                 spaceBetween={10}
@@ -356,20 +372,10 @@ export default function Home() {
                                 {sliderItems.map((subItem, i) => (
                                     <SwiperSlide key={`thumb-${subItem.id}`}>
                                         <div
-                                            style={{ textAlign: 'center', cursor: 'pointer' }}
+                                            className="thumb-image"
                                             onClick={() => mainSwiperRef.current?.slideToLoop(i)}
                                         >
-                                            <img
-                                                src={subItem.imgSrc}
-                                                alt={subItem.mainTitle}
-                                                style={{
-                                                    width: '60px',
-                                                    height: '60px',
-                                                    borderRadius: '50%',
-                                                    objectFit: 'cover',
-                                                    border: '2px solid #ddd',
-                                                }}
-                                            />
+                                            <img src={subItem.imgSrc} alt={subItem.mainTitle} />
                                         </div>
                                     </SwiperSlide>
                                 ))}
@@ -404,13 +410,13 @@ export default function Home() {
                                             <div className="xc-banner-eight__img w-img">
                                                 <img src="/storage/img/banner/banner-8-1.png" alt="banner" />
                                             </div>
-                                        <div className="xc-banner-eight__content">
-                                            <h3 className="xc-banner-eight__title">
-                                                Synthetic Fabrics
-                                                {/* <a href="#" className="uppercase">Hyderabad</a> */}
-                                            </h3>
-                                            <span className=".xc-banner-eight__subtitle">Rayon Fabrics</span>
-                                        </div>
+                                            <div className="xc-banner-eight__content">
+                                                <h3 className="xc-banner-eight__title">
+                                                    Synthetic Fabrics
+                                                    {/* <a href="#" className="uppercase">Hyderabad</a> */}
+                                                </h3>
+                                                <span className=".xc-banner-eight__subtitle">Rayon Fabrics</span>
+                                            </div>
                                         </Link>
                                     </div>
                                 </div>
@@ -420,7 +426,7 @@ export default function Home() {
                                             <span className="xc-banner-eight-lg__subtitle">UP TO 40% OFF</span>
                                             <h3 className="xc-banner-eight-lg__title">The Top Collections <br /> of fall 2025</h3>
                                             <div className="xc-banner-eight-lg__btn">
-                                                <a className="swiftcart-btn" href="#">Shop Now</a>
+                                                <a className="swiftcart-btn" href={route('products.index', { title: 'our products' })}>Shop Now</a>
                                             </div>
                                         </div>
                                         <div className="xc-banner-eight__img">
@@ -449,15 +455,18 @@ export default function Home() {
                                                 <img src={product.imgSrc} alt="fas" />
                                                 <span className="xc-product-eight__offer">{product.offer}</span>
                                                 <div className="xc-product-eight__icons">
-                                                    <button className="xc-product-eight__action">
+                                                    <button className="xc-product-eight__action"
+                                                        onClick={() => addToWishlist(product)}>
                                                         <i className="fas fa-heart"></i>
                                                         <span className="xc-product-eight__tooltip">Add To Wishlist</span>
                                                     </button>
-                                                    <button className="xc-product-eight__action">
+                                                    <button className="xc-product-eight__action"
+                                                        onClick={() => openQuickView(product)}>
                                                         <i className="fas fa-eye"></i>
                                                         <span className="xc-product-eight__tooltip">Quick View</span>
                                                     </button>
-                                                    <button className="xc-product-eight__action">
+                                                    <button className="xc-product-eight__action"
+                                                        onClick={() => addToCart(product)}>
                                                         <i className="fas fa-shopping-bag"></i>
                                                         <span className="xc-product-eight__tooltip">Add To Cart</span>
                                                     </button>
@@ -471,9 +480,9 @@ export default function Home() {
                                                 <h3 className="xc-product-eight__title"><a href="#">{product.title}</a></h3>
                                                 {/* <h5 className="xc-product-eight__price"><del className="pr-2">{product.originalPrice}</del> {product.discountedPrice}</h5> */}
                                                 {product.discountedPrice && (
-                                                    <span className="text-gray-400 text-sm line-through pr-2">&#8377;{product.discountedPrice}</span>
+                                                    <span className="text-gray-400 text-sm line-through pr-2">&#8377;{product.originalPrice}</span>
                                                 )}
-                                                <span className="text-gray-900 text-xl font-bold">&#8377;{product.originalPrice}</span>
+                                                <span className="text-gray-900 text-xl font-bold">&#8377;{product.discountedPrice}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -496,7 +505,7 @@ export default function Home() {
                                             <span className="xc-banner-nine__subtitle">New arrival collection</span>
                                             <h3 className="xc-banner-nine__title">off60%</h3>
                                             <div className="xc-banner-nine__btn">
-                                                <a href="#" className="swiftcart-btn-black">Shop Now</a>
+                                                <a href={route('products.index', { title: 'our products' })} className="swiftcart-btn-black">Shop Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -510,7 +519,7 @@ export default function Home() {
                                             <span className="xc-banner-nine__subtitle">Check featured items</span>
                                             <h3 className="xc-banner-nine__title">SALE<span>50%</span></h3>
                                             <div className="xc-banner-nine__btn">
-                                                <a href="#" className="swiftcart-btn-black">Shop Now</a>
+                                                <a href={route('products.index', { title: 'our products' })} className="swiftcart-btn-black">Shop Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -539,38 +548,47 @@ export default function Home() {
                                 </div>
 
                                 <div className="xc-product-man-woman__wrapper tabs-content">
-                                    {activeTab === "all" && (
-                                        <div className="tab active-tab" id="all">
-                                            <div className="row gutter-y-30">
-                                                {items.map((item) => (
-                                                    <div key={`all-${item.id}`} className="col-lg-4 col-md-6">
-                                                        <div className="xc-product-ten__item">
-                                                            <div className="xc-product-ten__img w-img">
-                                                                <img src={item.imgSrc} alt={item.title} />
-                                                            </div>
-                                                            <div className="xc-product-ten__content">
-                                                                <h3 className="xc-product-ten__title">
-                                                                    <a href="#">{item.title}</a>
-                                                                </h3>
-                                                                <h4 className="xc-product-ten__price">
-                                                                    {item.discountedPrice}
-                                                                </h4>
-                                                                <div className="xc-product-ten__btn">
-                                                                    <a href="#"><i className="fas fa-search"></i></a>
-                                                                    <a href="#"><i className="fas fa-eye"></i></a>
-                                                                    <a href="#"><i className="fas fa-shopping-cart"></i></a>
+                                    {["all", "new", "trending", "top", "best"].map((tab) => (
+                                        activeTab === tab && (
+                                            <div className="tab active-tab" id={tab} key={tab}>
+                                                <div className="row gutter-y-30">
+                                                    {items.map((item) => (
+                                                        <div key={`${tab}-${item.id}`} className="col-lg-4 col-md-6">
+                                                            <div className="xc-product-ten__item">
+                                                                <div className="xc-product-ten__img w-img">
+                                                                    <img src={item.imgSrc} alt={item.title} />
+                                                                </div>
+                                                                <div className="xc-product-ten__content">
+                                                                    <h3 className="xc-product-ten__title">
+                                                                        <a href="#">{item.title}</a>
+                                                                    </h3>
+                                                                    <h4 className="xc-product-ten__price">
+                                                                        ₹{item.discountedPrice}
+                                                                    </h4>
+                                                                    <div className="xc-product-ten__btn">
+                                                                        <a href="#" onClick={(e) => { e.preventDefault(); addToWishlist(item); }} title="Add to Wishlist">
+                                                                            <i className="fas fa-heart"></i>
+                                                                        </a>
+                                                                        <a href="#" onClick={(e) => { e.preventDefault(); openQuickView(item); }} title="Quick View">
+                                                                            <i className="fas fa-eye"></i>
+                                                                        </a>
+                                                                        <a href="#" onClick={(e) => { e.preventDefault(); addToCart(item); }} title="Add to Cart">
+                                                                            <i className="fas fa-shopping-cart"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
+                                        )
+                                    ))}
                                 </div>
                             </div>
                         </div>
                     </div>
+
 
 
                     {/* Testimonial Section */}
@@ -616,71 +634,136 @@ export default function Home() {
                         </div>
                     </div>
 
-
-                    {/* Blog Section */}
-                    {/* <div className="xc-blog-one pb-50 pt-20">
-                    <div className="container">
-                        <div className="xc-sec-heading xc-sec-heading-three text-center">
-                            <h3 className="xc-sec-heading__title xc-style-3">Our latest blog post</h3>
-                            <div className="xc-sec-heading__shape pt-2 pb-2" align="center">
-                                <img src="/storage/img/shapes/sec-title-border.png" alt="border" />
-                            </div>
-                        </div>
-                        <div className="row gutter-y-30">
-                            {blogs.map((blog) => (
-                                <div key={blog.id} className="col-md-6 col-xl-4">
-                                    <div className="xc-blog-one__item wow xcfadeUp" data-wow-delay={`${blog.id}00ms`}>
-                                        <div className="xc-blog-one__thumb w-img">
-                                            <img src={blog.imgSrc} alt={blog.imgSrc} />
-                                            <div className="xc-blog-one__meta-2">
-                                                <a href="#">{blog.author}</a>
-                                                <span>{blog.date}</span>
-                                            </div>
-                                        </div>
-                                        <div className="xc-blog-one__content">
-                                            <h3 className="xc-blog-one__title"><a href="blog-details.html">{blog.title}</a></h3>
-                                            <ul className="xc-blog-one__meta list-unstyled">
-                                                <li className="xc-post-cat">
-                                                    <a href="#">{blog.category}</a>
-                                                </li>
-                                                <li className="xc-post-comment">
-                                                    <a href="#">{blog.comments}</a>
-                                                </li>
-                                                <li className="xc-post-view">
-                                                    <span className="xc-post-view">{blog.views}</span>
-                                                </li>
-                                            </ul>
-                                            <p className="xc-blog-one__except">{blog.excerpt}</p>
-                                            <a href="blog-details.html" className="swiftcart-btn swiftcart-border-btn">read more</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div> */}
-
-                    {/* Newsletter Section */}
-                    {/* <div className="xc-newsletter-form pt-60 pb-60 xc-has-overlay" data-bg="/storage/img/bg/newsletter-bg.jpg">
-                    <div className="container">
-                        <div className="xc-newsletter-form__inner">
-                            <div className="row justify-content-center text-center">
-                                <div className="col-lg-8">
-                                    <h3 className="xc-newsletter-form__title">Subscribe Newslatter</h3>
-                                    <form action="#" className="xc-newsletter-form__main">
-                                        <input type="email" placeholder="enter Email address " defaultValue="" />
-                                        <button type="submit">Send Now</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-
-                    {/* Footer Section */}
-                    {/* <Footer /> */}
-
                 </div>
+
+                {/* for quick view */}
+{showQuickView && quickViewProduct && (
+  <div
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 9999,
+      padding: '16px',
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        backgroundColor: '#fff',
+        borderRadius: '12px',
+        width: '100%',
+        maxWidth: '800px',
+        maxHeight: '90%',
+        overflowY: 'auto',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: window.innerWidth < 640 ? 'column' : 'row', // 💡 Responsive layout
+        gap: '24px',
+        padding: '20px',
+      }}
+    >
+      {/* Close Button */}
+      <button
+        onClick={closeQuickView}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          fontSize: '24px',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+        }}
+      >
+        &times;
+      </button>
+
+      {/* Image Section */}
+      <div
+        style={{
+          flex: '1',
+          minWidth: '240px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          src={quickViewProduct.imgSrc}
+          alt={quickViewProduct.title}
+          style={{
+            width: '100%',
+            maxWidth: '300px',
+            height: 'auto',
+            borderRadius: '8px',
+            objectFit: 'cover',
+          }}
+        />
+      </div>
+
+      {/* Product Info Section */}
+      <div style={{ flex: '2', textAlign: window.innerWidth < 640 ? 'center' : 'left' }}>
+        <h2 style={{ marginBottom: '10px', fontSize: '20px' }}>{quickViewProduct.title}</h2>
+        <p style={{ marginBottom: '6px', fontSize: '16px' }}>
+          <strong>Price:</strong> ₹{quickViewProduct.originalPrice}
+        </p>
+        {quickViewProduct.discountedPrice && (
+          <p style={{ marginBottom: '6px', fontSize: '16px' }}>
+            <strong>Offer:</strong> ₹{quickViewProduct.discountedPrice}
+          </p>
+        )}
+        <div
+          style={{
+            marginTop: '20px',
+            display: 'flex',
+            flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+            gap: '10px',
+            alignItems: 'center',
+            justifyContent: window.innerWidth < 640 ? 'center' : 'flex-start',
+          }}
+        >
+          <button
+            onClick={() => addToCart(quickViewProduct)}
+            style={{
+              backgroundColor: '#3182ce',
+              color: '#fff',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              width: window.innerWidth < 640 ? '100%' : 'auto',
+            }}
+          >
+            Add to Cart
+          </button>
+          <button
+            onClick={() => addToWishlist(quickViewProduct)}
+            style={{
+              backgroundColor: '#e53e3e',
+              color: '#fff',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              width: window.innerWidth < 640 ? '100%' : 'auto',
+            }}
+          >
+            Add to Wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
             </FrontLayout>
         </>
     );

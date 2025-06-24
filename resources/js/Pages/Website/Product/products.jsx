@@ -99,7 +99,7 @@ const Products = ({ title }) => {
 
     return (
         <>
-            <section className="py-6 bg-white min-h-screen">
+            <section className="py-6 bg-white min-h-screen container">
                 <div className="container mx-auto px-4">
                     {/* Breadcrumb & search bar */}
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
@@ -270,20 +270,9 @@ const Products = ({ title }) => {
                                                             className="absolute w-full h-full object-cover"
                                                         />
                                                         {/* Compare button on hover */}
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                toggleCompare(product);
-                                                            }}
-                                                            className={`absolute bottom-2 right-2 px-3 py-1 text-xs rounded-full border transition-opacity opacity-0 group-hover:opacity-100 ${compareList.find((p) => p.id === product.id)
-                                                                    ? 'bg-red-100 text-red-600 border-red-300'
-                                                                    : 'bg-white text-gray-600 border-gray-300'
-                                                                }`}
-                                                        >
-                                                            {compareList.find((p) => p.id === product.id) ? 'Remove' : 'Compare'}
-                                                        </button>
                                                     </div>
-                                                    <div className="mt-3 flex justify-between items-center">
+                                                    <div className="mt-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+
                                                         <div>
                                                             <p className="font-medium text-gray-900">{product.name}</p>
                                                             <div className="mt-1">
@@ -298,15 +287,16 @@ const Products = ({ title }) => {
                                                                 e.preventDefault();
                                                                 toggleCompare(product);
                                                             }}
-                                                            className={`text-xs ml-2 px-3 py-1 rounded-full border ${compareList.find((p) => p.id === product.id)
-                                                                    ? "bg-red-100 text-red-600 border-red-300"
-                                                                    : "bg-blue-100 text-blue-600 border-blue-300"
-                                                                }`}
+                                                            className={`text-xs px-4 py-1.5 rounded-full border w-full sm:w-fit text-center
+                                                                 ${compareList.find((p) => p.id === product.id)
+                                                                    ? 'bg-red-100 text-red-600 border-red-300'
+                                                                    : 'bg-blue-100 text-blue-600 border-blue-300'
+                                                                }
+                                                            `}
                                                         >
-                                                            {compareList.find((p) => p.id === product.id)
-                                                                ? "Remove"
-                                                                : "Compare"}
+                                                            {compareList.find((p) => p.id === product.id) ? 'Remove' : 'Compare'}
                                                         </button>
+
                                                     </div>
                                                 </Link>
                                             </div>

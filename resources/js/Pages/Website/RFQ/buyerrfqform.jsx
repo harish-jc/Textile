@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { Modal } from 'antd';
+import { Drawer, Form, Input, Button, message } from 'antd';
 
 const BuyerRfqForm = () => {
     const [open, setOpen] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [form] = Form.useForm();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Simulate submission
+    const handleSubmit = (values) => {
+        console.log('RFQ Submitted:', values);
         setSubmitted(true);
+        message.success('Your RFQ has been submitted successfully!');
 
-        // Reset form and modal after a short delay
         setTimeout(() => {
             setOpen(false);
             setSubmitted(false);
+            form.resetFields();
         }, 2000);
     };
 
@@ -21,63 +22,71 @@ const BuyerRfqForm = () => {
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
                 RFQ
             </button>
 
-            <Modal
-                title="Request for Quotation (RFQ)"
-                open={open}
-                onCancel={() => {
+            <Drawer
+                title="Send RFQ (Request for Quotation)"
+                placement="right"
+                width={560}
+                onClose={() => {
                     setOpen(false);
                     setSubmitted(false);
+                    form.resetFields();
                 }}
-                footer={null}
-                centered
+                open={open}
             >
                 {submitted ? (
                     <div className="text-green-600 text-center font-semibold py-6">
-                        ✅ Your RFQ has been submitted successfully!
+                        Your RFQ has been submitted!
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-3">
-                            <label className="block font-medium text-sm">Product Name</label>
-                            <input
-                                type="text"
-                                className="w-full px-3 py-2 border border-gray-300 rounded"
-                                placeholder="Enter product name"
-                            />
-                        </div>
-
-                        <div className="mb-3">
-                            <label className="block font-medium text-sm">Quantity</label>
-                            <input
-                                type="number"
-                                className="w-full px-3 py-2 border border-gray-300 rounded"
-                                placeholder="Enter quantity"
-                            />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block font-medium text-sm">Description</label>
-                            <textarea
-                                rows="3"
-                                className="w-full px-3 py-2 h-24 border border-gray-300 rounded"
-                                placeholder="Describe your requirements"
-                            ></textarea>
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+                    <Form
+                        form={form}
+                        layout="vertical"
+                        onFinish={handleSubmit}
+                        requiredMark="optional"
+                    >
+                        <Form.Item
+                            label="Product Name"
+                            name="productName"
+                            rules={[{ required: true }]}
                         >
-                            Submit RFQ
-                        </button>
-                    </form>
+                            <Input placeholder="Enter product name" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Quantity (in meters)"
+                            name="quantity"
+                            rules={[{ required: true }]}
+                        >
+                            <Input type="number" placeholder="e.g. 100" />
+                        </Form.Item>
+
+                        <Form.Item label="Email"
+                            name="email"
+                            rules={[{ required: true, type: 'email' }]}>
+                            <Input placeholder="Enter your email" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="Message"
+                            name="description"
+                            rules={[{ required: true }]}
+                        >
+                            <Input.TextArea rows={4} placeholder="Describe your requirements" />
+                        </Form.Item>
+
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" block>
+                                Submit RFQ
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 )}
-            </Modal>
+            </Drawer>
         </>
     );
 };

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useForm, router } from '@inertiajs/react';
+import { useForm, router, usePage } from '@inertiajs/react';
 import FrontLayout from '@/Layouts/FrontLayout';
 import '@/Pages/Home/Home.css';
 import BuyerRfqForm from '../RFQ/buyerrfqform';
+import { Drawer, Form, Input, Button, message, Upload } from 'antd';
+import { PaperClipOutlined } from '@ant-design/icons';
 
 const products = [
     {
-        id: 1,
+        id: 40,
         name: 'Cotton Poplin (Premium)',
         price: '550',
         imgSrc: '/storage/img/products/f-product-1-1.png',
@@ -24,7 +26,7 @@ const products = [
         }
     },
     {
-        id: 2,
+        id: 41,
         name: 'Silk Chiffon (Printed Floral)',
         price: '1,350',
         imgSrc: '/storage/img/products/f-product-1-5.png',
@@ -42,7 +44,7 @@ const products = [
         }
     },
     {
-        id: 3,
+        id: 42,
         name: 'Linen-Cotton Blend (Natural)',
         price: '850',
         imgSrc: '/storage/img/products/f-product-1-3.png',
@@ -60,7 +62,7 @@ const products = [
         }
     },
     {
-        id: 4,
+        id: 43,
         name: 'Wool Tweed (Charcoal)',
         price: '1,500',
         imgSrc: '/storage/img/products/f-product-1-4.png',
@@ -78,41 +80,98 @@ const products = [
         }
     },
 ];
-
+message.config({
+    duration: 2,
+    maxCount: 3,
+});
 const Show = ({ product }) => {
+    // for send inquiry
+    const [inquiryOpen, setInquiryOpen] = useState(false);
+
     const [activeTab, setActiveTab] = useState('Description');
     const { post } = useForm();
     const [showQuickView, setShowQuickView] = useState(false);
     const [quantity, setQuantity] = useState(1);
 
-    // Parse price from string like "550"
-    const pricePerMeter = parseFloat(product.price.replace(/[^0-9.]/g, '')) || 0;
-    const totalPrice = (pricePerMeter * quantity).toFixed(2);
-
+    // show notification wishlist and cart if user not logged in
+    const { auth } = usePage().props;
+    const user = auth?.user;
     const handleAddToCart = () => {
-        post(route('cart.add', product.id), {
-            data: {
-                id: product.id,
-                quantity: quantity,
-            },
-            onSuccess: () => {
-                router.visit(route('cart.index'));
-            },
-        });
+        if (!user) {
+            message.info('Please login to add to cart');
+            return;
+        }
+        // Save to localStorage
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const alreadyInCart = cart.find(item => item.id === product.id);
+
+        if (!alreadyInCart) {
+            cart.push({ ...product, quantity });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            message.success('Added to Cart!');
+        } else {
+            message.warning('Already in Cart');
+        }
     };
+    const handleAddToWishlist = () => {
+        if (!user) {
+            message.info('Please login to add to wishlist');
+            return;
+        }
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const alreadyInWishlist = wishlist.find(item => item.id === product.id);
+
+        if (!alreadyInWishlist) {
+            wishlist.push(product);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            message.success('Added to Wishlist!');
+        } else {
+            message.warning('Already in Wishlist');
+        }
+    };
+
+    const handleRelatedQuickView = (product) => {
+        setShowQuickView(true);
+        setQuickViewProduct(product); // Create this state below
+    };
+
+    const [quickViewProduct, setQuickViewProduct] = useState(null);
+
+    const basePrice = parseFloat(product.price || product.originalPrice || 0);
+
+    // Bulk pricing discount tiers (based on base price)
+    const bulkPricing = [
+        { min: 1, max: 4.99, discount: 0 },      // no discount
+        { min: 5, max: 19.99, discount: 0.1 },   // 10% off
+        { min: 20, max: 49.99, discount: 0.15 }, // 15% off
+        { min: 50, max: Infinity, discount: 0.25 } // 25% off
+    ];
+
+    // Get per meter price based on quantity
+    const getPricePerMeter = (qty) => {
+        for (const tier of bulkPricing) {
+            if (qty >= tier.min && qty <= tier.max) {
+                return (basePrice * (1 - tier.discount)).toFixed(2);
+            }
+        }
+        return basePrice.toFixed(2);
+    };
+
+    const pricePerMeter = getPricePerMeter(quantity);
+    const totalPrice = (pricePerMeter * quantity).toFixed(2);
 
     return (
         <>
-            <section className="py-12 bg-gray-50">
+            <section className="mt-12 mb-0 bg-gray-50 container">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col md:flex-row gap-10 items-center">
                         <img
-                            src={product.image}
-                            alt={product.name}
+                            src={product.imgSrc}
+                            alt={product.title}
                             className="w-full md:w-1/2 h-96 object-cover rounded-lg shadow-md"
                         />
                         <div className="md:w-1/2">
-                            <h1 className="text-2xl font-bold mb-3 lycoris-color">{product.name}</h1>
+                            <h1 className="text-2xl font-bold mb-3 lycoris-color">{product.title}</h1>
 
                             {/* Rating */}
                             <div className="flex items-center mb-4">
@@ -129,12 +188,12 @@ const Show = ({ product }) => {
                                 <span className="ml-2 text-gray-600">{product.rating.toFixed(1)}/5.0</span>
                             </div>
 
-                            <p className="text-lg font-semibold text-green-600 mb-4">&#8377;{product.price} / meter</p>
-                            <p className="text-gray-700 mb-4">{product.description}</p>
+                            <p className="text-lg font-semibold text-green-600 mb-4">&#8377;{product.price || product.originalPrice} / meter</p>
+                            <p className="text-black mb-4">{product.description}</p>
 
                             {/* Quantity + Total  */}
                             <div className="mb-6">
-                                <label className="block mb-1 font-medium text-gray-700">
+                                <label className="block mb-1 font-medium text-black">
                                     Quantity (in meters)
                                 </label>
                                 <div className="flex items-center gap-2">
@@ -154,8 +213,9 @@ const Show = ({ product }) => {
                                         +
                                     </button>
                                 </div>
-                                <p className="mt-2 text-gray-700">
-                                    <strong>Total Price:</strong> &#8377;{totalPrice}
+                                <p className="mt-2 text-black">
+                                    <strong>Total Price : </strong>
+                                    &#8377;{totalPrice}
                                 </p>
                             </div>
 
@@ -164,52 +224,132 @@ const Show = ({ product }) => {
                             <div className="mt-6 flex items-center gap-3">
                                 <button
                                     onClick={handleAddToCart}
-                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                                 >
-                                    Add to Cart
+                                    <i className="fas fa-shopping-cart"></i>
                                 </button>
                                 <button
                                     type="button"
-                                    className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                                    onClick={() => alert('Added to Wishlist!')}
+                                    className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                                    onClick={handleAddToWishlist}
                                 >
                                     <i className="fas fa-heart"></i>
                                 </button>
-                                <button
+
+
+                                {/* <button
                                     type="button"
-                                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-black"
+                                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-black"
                                     onClick={() => setShowQuickView(true)}
                                     aria-label="Quick view"
                                 >
                                     <i className="fas fa-eye"></i>
-                                </button>
+                                </button> */}
                                 <BuyerRfqForm />
-
+                                <button
+                                    type="button"
+                                    className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                                    onClick={() => setInquiryOpen(true)}
+                                >
+                                    Inquiry
+                                </button>
                             </div>
 
-                            {/* Quick View Modal */}
-                            {showQuickView && (
-                                <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center">
-                                    <div className="relative max-w-3xl w-full p-4">
-                                        <button
-                                            className="absolute top-2 right-2 text-white text-2xl"
-                                            onClick={() => setShowQuickView(false)}
+                            {/* Inquiry Modal */}
+                            <Drawer
+                                title="Send Inquiry"
+                                placement="right"
+                                width={560}
+                                onClose={() => setInquiryOpen(false)}
+                                open={inquiryOpen}
+                            >
+                                <Form
+                                    layout="vertical"
+                                    onFinish={(values) => {
+                                        console.log("Inquiry values:", values);
+                                        message.success("Inquiry submitted!");
+                                        setInquiryOpen(false);
+                                    }}
+                                    initialValues={{
+                                        To: "Textile Vendor"
+                                    }}
+                                >
+                                    <Form.Item label="To" name="To">
+                                        <Input disabled />
+                                    </Form.Item>
+
+                                    <Form.Item label="Your Name" name="name" >
+                                        <Input placeholder="Enter your name" />
+                                    </Form.Item>
+
+                                    <Form.Item label="Email" name="email" rules={[{ type: 'email' }]}>
+                                        <Input placeholder="Enter your email" />
+                                    </Form.Item>
+
+                                    <Form.Item name="attachment" valuePropName="fileList" getValueFromEvent={e => e.fileList}>
+                                        <Upload
+                                            name="file"
+                                            beforeUpload={() => false}
+                                            showUploadList={true}
+                                            multiple
                                         >
-                                            &times;
-                                        </button>
-                                        <img
-                                            src={product.image}
-                                            alt={product.name}
-                                            className="w-full h-auto object-contain rounded-lg shadow-lg"
-                                        />
-                                    </div>
-                                </div>
-                            )}
+                                            <Button
+                                                type="link"
+                                                icon={<PaperClipOutlined />}
+                                                className="text-black text-sm p-0"
+                                            >
+                                                Add attachment
+                                            </Button>
+                                        </Upload>
+                                    </Form.Item>
+
+
+                                    <Form.Item label="Message" name="message" rules={[{}]}>
+                                        <Input.TextArea rows={4} placeholder='Please share more details.' />
+                                    </Form.Item>
+
+                                    <Form.Item>
+                                        <Button type="primary" htmlType="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+                                            Submit
+                                        </Button>
+                                    </Form.Item>
+                                </Form>
+                            </Drawer>
+
+
                         </div>
+                    </div>
+
+                    {/* Bulk Pricing Table */}
+                    <div className="m-4 border-gray-200 p-3">
+                        <h3 className="font-semibold text-gray-800 mb-2 text-xl">Bulk Pricing (Per Meter)</h3>
+                        <table className=" w-full">
+                            <thead>
+                                <tr className="border-b text-left">
+                                    <th className="py-1 text-black">Quantity (Meters)</th>
+                                    <th className="py-1 text-black">Price</th>
+                                </tr>
+                            </thead>
+                            <tbody className="text-black p-12">
+                                {bulkPricing.map((tier, i) => {
+                                    const discounted = (basePrice * (1 - tier.discount)).toFixed(2);
+                                    return (
+                                        <tr key={i} className="border-b">
+                                            <td className="py-1">
+                                                {tier.max === Infinity
+                                                    ? `${tier.min}+`
+                                                    : `${tier.min} - ${tier.max}`}
+                                            </td>
+                                            <td className="py-1 text-green-700 font-medium">₹{discounted}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
-            <section className="py-12 bg-gray-50">
+            <section className="mt-0 mb-4 bg-gray-50 container">
                 <div className="mt-10 container mx-auto px-4">
                     <div className="border-b border-gray-200 mb-4">
                         <nav className="flex space-x-8" aria-label="Tabs">
@@ -255,7 +395,7 @@ const Show = ({ product }) => {
                     </div>
                 </div>
             </section>
-            <section>
+            <section className='container'>
 
                 <div className="xc-product-eight pb-20">
                     <div className="container">
@@ -270,15 +410,18 @@ const Show = ({ product }) => {
                                             <img src={product.imgSrc} alt="fas" />
                                             <span className="xc-product-eight__offer">{product.offer}</span>
                                             <div className="xc-product-eight__icons">
-                                                <button className="xc-product-eight__action">
+                                                <button className="xc-product-eight__action"
+                                                    onClick={() => handleAddToWishlist(product)}>
                                                     <i className="fas fa-heart"></i>
                                                     <span className="xc-product-eight__tooltip">Add To Wishlist</span>
                                                 </button>
-                                                <button className="xc-product-eight__action">
+                                                <button className="xc-product-eight__action"
+                                                    onClick={() => handleRelatedQuickView(product)}>
                                                     <i className="fas fa-eye"></i>
                                                     <span className="xc-product-eight__tooltip">Quick View</span>
                                                 </button>
-                                                <button className="xc-product-eight__action">
+                                                <button className="xc-product-eight__action"
+                                                    onClick={() => handleAddToCart(product)} >
                                                     <i className="fas fa-shopping-bag"></i>
                                                     <span className="xc-product-eight__tooltip">Add To Cart</span>
                                                 </button>
@@ -301,10 +444,142 @@ const Show = ({ product }) => {
                                     </div>
                                 </div>
                             ))}
+
                         </div>
                     </div>
                 </div>
             </section>
+           {showQuickView && quickViewProduct && (
+  <div
+    style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 9999,
+      padding: '16px',
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        backgroundColor: '#fff',
+        borderRadius: '12px',
+        width: '100%',
+        maxWidth: '800px',
+        maxHeight: '90%',
+        overflowY: 'auto',
+        position: 'relative',
+        padding: '20px',
+        display: 'flex',
+        flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+        gap: '20px',
+      }}
+    >
+      {/* Close Button */}
+      <button
+        onClick={() => {
+          setShowQuickView(false);
+          setQuickViewProduct(null);
+        }}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          fontSize: '24px',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+        }}
+      >
+        &times;
+      </button>
+
+      {/* Image */}
+      <div
+        style={{
+          flex: '1',
+          minWidth: '220px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <img
+          src={quickViewProduct.imgSrc || quickViewProduct.image}
+          alt={quickViewProduct.title}
+          style={{
+            width: '100%',
+            maxWidth: '300px',
+            height: 'auto',
+            borderRadius: '8px',
+            objectFit: 'cover',
+          }}
+        />
+      </div>
+
+      {/* Info */}
+      <div style={{ flex: '2', textAlign: window.innerWidth < 640 ? 'center' : 'left' }}>
+        <h2 style={{ marginBottom: '10px', fontSize: '20px' }}>{quickViewProduct.title}</h2>
+        <p style={{ marginBottom: '6px', fontSize: '16px' }}>
+          <strong>Price:</strong> ₹{quickViewProduct.price}
+        </p>
+        <p style={{ color: '#888', fontSize: '14px' }}>
+          ⭐ {quickViewProduct.rating?.toFixed(1)} / 5.0
+        </p>
+
+        {/* Buttons */}
+        <div
+          style={{
+            marginTop: '20px',
+            display: 'flex',
+            flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+            gap: '10px',
+            alignItems: 'center',
+            justifyContent: window.innerWidth < 640 ? 'center' : 'flex-start',
+          }}
+        >
+          <button
+            onClick={() => handleAddToCart(quickViewProduct)}
+            style={{
+              backgroundColor: '#3182ce',
+              color: '#fff',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              width: window.innerWidth < 640 ? '100%' : 'auto',
+            }}
+          >
+            Add to Cart
+          </button>
+          <button
+            onClick={() => handleAddToWishlist(quickViewProduct)}
+            style={{
+              backgroundColor: '#e53e3e',
+              color: '#fff',
+              padding: '10px 20px',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              width: window.innerWidth < 640 ? '100%' : 'auto',
+            }}
+          >
+            Add to Wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
         </>
     );
 };
