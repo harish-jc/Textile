@@ -1,66 +1,75 @@
 import React from 'react';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, useForm } from '@inertiajs/react';
+import {
+    Button,
+    Layout,
+    theme,
+    Dropdown,
+    Space,
+    Image,
+    Popconfirm,
+    Menu
+} from "antd";
+import {
+    LogoutOutlined,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    DownOutlined,
+    SettingOutlined,
+    LockOutlined,
+    AppstoreOutlined,
+    BgColorsOutlined,
+    FormatPainterOutlined,
+    AppstoreAddOutlined
+} from "@ant-design/icons";
+import '@/Pages/Home/Home.css';
+import Sidebar from  "@/Layouts/Sidebar";
 
 export default function AdminLayout({ children }) {
+    const user = usePage().props.auth.user;
+    const setting = usePage().props.setting;
     const { url } = usePage();
     const { auth } = usePage().props;
-
+    // CSS //
+    const avatarImage = user.profile ? user.profile : "/images/avatar.png";
+    const avatarimageStyle = {
+        height: "25px",
+        width: "25px",
+        position: "relative",
+        top: "7px",
+        borderRadius: "50%",
+    };
+    // const logoImage = setting.logo;
+    const imageStyle = {
+        height: "65px",
+        marginLeft: "1em",
+        width: "80px",
+        // display: "block",
+        objectFit: "contain",
+        // background: "white"
+    };
+    const { post, put } = useForm({
+        current_password: "",
+        password: "",
+        password_confirmation: "",
+    });
     const isActive = (routeName) => url.startsWith(route(routeName));
+    const handleLogout = () => {
+        post(route("admin.logout"), {
+            onError: (errors) => {
+                console.log("errors", errors);
+            },
+            onSuccess: (values) => {
+                // console.log("vaaaa", values);
+            },
+        });
+    };
 
+    const { SubMenu } = Menu;
     return (
         <div className="flex min-h-screen">
             {/* Sidebar */}
-            <aside className="w-64 bg-gray-900 text-white">
-                <div className="p-4 text-2xl font-bold border-b border-gray-700">
-                    Admin Panel
-                </div>
-                <nav className="mt-6 px-4">
-                    <ul className="space-y-3">
-                        <li>
-                            <Link
-                                href={route('admin.dashboard')}
-                                className={`block px-3 py-2 rounded ${isActive('admin.dashboard')
-                                    ? 'bg-gray-700'
-                                    : 'hover:bg-gray-700'
-                                    }`}
-                            >
-                                Dashboard
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block px-3 py-2 rounded hover:bg-gray-700">
-                                Vendors
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block px-3 py-2 rounded hover:bg-gray-700">
-                                Products
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block px-3 py-2 rounded hover:bg-gray-700">
-                                Categories
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block px-3 py-2 rounded hover:bg-gray-700">
-                                Orders
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block px-3 py-2 rounded hover:bg-gray-700">
-                                Payments
-                            </Link>
-                        </li>
-                        <li>
-                            <Link href="#" className="block px-3 py-2 rounded hover:bg-gray-700">
-                                Banners
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
-
+            <Sidebar />
 
             {/* Main Content Area */}
             <div className="flex-1 flex flex-col">
@@ -83,29 +92,78 @@ export default function AdminLayout({ children }) {
                         <span className="text-sm text-gray-700"> {auth?.user?.name || 'Admin'}</span>
                         {/* Dropdown */}
                         <div className="relative group">
-                            <button className="flex items-center px-3 py-2 rounded hover:bg-gray-100 focus:outline-none">
-                                <svg className="w-5 h-5 ml-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                                </svg>
-                            </button>
-                            <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-10">
-                                <Link
-                                    href={route('admin.profile')}
-                                    method="get"
-                                    as="button"
-                                    className="w-full text-left px-3 py-2 rounded hover:bg-red-600 hover:text-white"
+                            <Dropdown
+                                menu={{
+                                    items: [
+                                        {
+                                            label: (
+                                                <Link href={route("admin.profile.update")}>
+                                                    <SettingOutlined /> Account Settings
+                                                </Link>
+                                            ),
+                                            key: "0",
+                                        },
+                                        {
+                                            label: (
+                                                <Link href={route("password.edit")}>
+                                                    <LockOutlined /> Change Password
+                                                </Link>
+                                            ),
+                                            key: "2",
+                                        },
+                                        {
+                                            label: (
+                                                <Popconfirm
+                                                    title="Logout"
+                                                    description="Are you sure to logout the page?"
+                                                    onConfirm={handleLogout}
+                                                    okButtonProps={{ shape: "round", type: "primary", className: "okbtn" }}
+                                                    // okType="primary"
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                    cancelButtonProps={{
+                                                        shape: "round",
+                                                        type: "primary",
+                                                        danger: true,
+                                                    }}
+                                                >
+                                                    <Button
+                                                        type="link"
+                                                        style={{ color: "red" }}
+                                                        icon={<LogoutOutlined />}
+                                                    >
+                                                        LogOut
+                                                    </Button>
+                                                </Popconfirm>
+                                            ),
+                                            key: "3",
+                                        },
+                                    ],
+                                }}
+                            >
+                                <a
+                                    onClick={(e) => e.preventDefault()}
+                                    style={{
+                                        float: "right",
+                                        marginTop: "7px",
+                                        marginRight: "35px",
+                                        padding: "0px",
+                                        color: "white",
+                                    }}
                                 >
-                                    Profile
-                                </Link>
-                                <Link
-                                    href={route('admin.logout')}
-                                    method="post"
-                                    as="button"
-                                    className="w-full text-left px-3 py-2 rounded hover:bg-red-600 hover:text-white"
-                                >
-                                    Logout
-                                </Link>
-                            </div>
+                                    <Space>
+                                        <Image
+                                            style={avatarimageStyle}
+                                            src={avatarImage}
+                                            preview={false}
+                                            alt="Logo"
+                                        />
+
+                                        {/* {user.name} */}
+                                        <DownOutlined />
+                                    </Space>
+                                </a>
+                            </Dropdown>
                         </div>
                     </div>
                 </header>
