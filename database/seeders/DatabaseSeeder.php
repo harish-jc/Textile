@@ -18,5 +18,25 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            // Add your seeders here
+            // CategorySeeder::class,
+            MaterialSeeder::class,
+            ColorSeeder::class,
+            PatternSeeder::class,
+        ]);
     }
+
+    // tinker
+    //      User::create([                                                                                                               
+    //      'name' => 'Admin',                                                                                                       
+    //      'email' => 'admin@gmail.com',                                                                                            
+    //      'password' => '12345678', // will be hashed automatically                                                                
+    //      'user_type' => 'admin',                                                                                                  
+    //      'phone' => '9876543218',                                                                                                 
+    //      'address' => 'Madurai',                                                                                                  
+    //      'region' => 'IN',                                                                                                        
+    //      'status' => 'active',                                                                                                    
+    //  ]);   
 }

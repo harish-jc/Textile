@@ -4,11 +4,16 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\Admin\PatternController;
+use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Cart\CartController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +75,7 @@ Route::get('/profile', function () {
     }
 })->name('profile');
 
-Route::get('/buyer-rfq-form',function(){
+Route::get('/buyer-rfq-form', function () {
     return Inertia::render('Website/RFQ/buyerrfqform');
 })->name('buyer-rfq-form');
 
@@ -109,7 +114,7 @@ Route::post('/change-password', [AuthController::class, 'changePassword'])->name
 Route::post('/profile-update', [AuthController::class, 'userUpdateProfile'])->name('profile.userUpdate');
 
 // Admin Routes
-Route::prefix('admin')->name('admin.')->group(function () {
+Route::prefix('admin')->as('admin.')->group(function () {
 
     // Admin authentication routes
     Route::middleware('guest')->group(function () {
@@ -128,7 +133,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Profile management
         Route::get('/profile', [AdminController::class, 'editProfile'])->name('profile');
         Route::post('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
+        // manage products
+        Route::resource('products', AdminProductController::class);
     });
+    // for add or update the product colors, patterns and materials
+    Route::resource('colors', ColorController::class)->except('show', 'create', 'edit');
+    Route::resource('patterns', PatternController::class)->except('show', 'create', 'edit');
+    Route::resource('materials', MaterialController::class)->except('show', 'create', 'edit');
+
+    //category
+    Route::resource('categories', CategoryController::class);
 });
 
 // Laravel Breeze/Sanctum auth routes
