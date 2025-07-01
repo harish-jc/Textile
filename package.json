@@ -1,31 +1,33 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
-    },
-    "devDependencies": {
-        "@headlessui/react": "^1.4.2",
-        "@inertiajs/react": "^1.3.0",
-        "@tailwindcss/forms": "^0.5.3",
-        "@vitejs/plugin-react": "^4.2.0",
-        "autoprefixer": "^10.4.12",
-        "axios": "^1.9.0",
-        "laravel-vite-plugin": "^0.7.2",
-        "postcss": "^8.4.31",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "tailwindcss": "^3.2.1",
-        "vite": "^4.0.0"
-    },
-    "dependencies": {
-        "@fontsource/pt-sans-narrow": "^5.2.6",
-        "@fortawesome/fontawesome-free": "^6.7.2",
-        "@inertiajs/inertia": "^0.11.1",
-        "antd": "^5.25.4",
-        "bootstrap": "^5.3.6",
-        "react-bootstrap": "^2.10.10",
-        "react-owl-carousel": "^2.3.3",
-        "swiper": "^11.2.8"
-    }
+  "name": "textile",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "@headlessui/react": "^1.7.19",
+    "@inertiajs/react": "^1.3.0",
+    "@tailwindcss/forms": "^0.5.3",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.14",
+    "axios": "^1.6.8",
+    "laravel-vite-plugin": "^0.7.8",
+    "postcss": "^8.4.33",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "^4.5.14"
+  },
+  "dependencies": {
+    "@fontsource/pt-sans-narrow": "^5.2.6",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@inertiajs/inertia": "^0.11.1",
+    "antd": "^5.25.4",
+    "bootstrap": "^5.3.6",
+    "react-bootstrap": "^2.10.10",
+    "react-owl-carousel": "^2.3.3",
+    "react-quill": "^2.0.0",
+    "swiper": "^11.2.8"
+  }
 }

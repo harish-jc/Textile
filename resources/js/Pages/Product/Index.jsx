@@ -31,7 +31,7 @@ import { useState } from "react";
 import InputError from "@/Components/InputError";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import DOMPurify from 'dompurify';
+// import DOMPurify from 'dompurify';
 
 
 export default function OurProduct({ ourProduct }) {

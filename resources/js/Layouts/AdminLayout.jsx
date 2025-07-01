@@ -16,7 +16,8 @@ import {
     LockOutlined
 } from "@ant-design/icons";
 import Sidebar from "@/Layouts/Sidebar";
-
+import '@/Pages/Home/Home.css';
+    
 export default function AdminLayout({ children }) {
     const { auth } = usePage().props;
     const user = auth.user;

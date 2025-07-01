@@ -10,4 +10,12 @@ export default defineConfig({
         }),
         react(),
     ],
+    optimizeDeps: {
+        include: ['react-quill'],
+    },
+    build: {
+        rollupOptions: {
+            external: [],
+        },
+    },
 });
