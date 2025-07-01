@@ -24,12 +24,17 @@ class User extends Authenticatable
         'password',
         'user_type',
         'phone',
-        'address',
+        // 'address',
         'region',
         'profile_image',
         'bio',
         'status',
         'email_verified_at',
+        'city',
+        'state',
+        'zip_code',
+        'address_line1',
+        'address_line2',
     ];
 
 
@@ -55,5 +60,3 @@ class User extends Authenticatable
         'profile' => File::class . ':users',
     ];
 }
-
-

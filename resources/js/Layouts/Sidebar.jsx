@@ -1,5 +1,5 @@
-import { Link, usePage } from '@inertiajs/react';
-import { Menu } from 'antd';
+import { Link, usePage } from "@inertiajs/react";
+import { Layout, Menu } from "antd";
 import {
     AppstoreOutlined,
     AppstoreAddOutlined,
@@ -12,131 +12,111 @@ import {
     CreditCardOutlined,
     PictureOutlined,
     TeamOutlined,
-} from '@ant-design/icons';
+    MenuUnfoldOutlined,
+    MenuFoldOutlined,
+} from "@ant-design/icons";
+import { useState } from "react";
 
-const { SubMenu } = Menu;
+const { Sider } = Layout;
 
 export default function Sidebar() {
-    const { url, location } = usePage();
-    const isActive = (routeName) => url.startsWith(route(routeName));
+    const { url } = usePage();
+    const [collapsed, setCollapsed] = useState(false);
+
+    const getActiveKey = () => {
+        if (url.startsWith(route("admin.dashboard"))) return "dashboard";
+        if (url.startsWith("/admin/colors")) return "colors";
+        if (url.startsWith("/admin/patterns")) return "patterns";
+        if (url.startsWith("/admin/materials")) return "materials";
+        if (url.startsWith(route("admin.products.index"))) return "products";
+        if (url.startsWith(route("admin.categories.index"))) return "categories";
+        return "";
+    };
 
     return (
-        <aside className="w-64 bg-gray-900 text-white h-screen overflow-y-auto">
-            <div className="p-4 text-2xl font-bold border-b border-gray-700">
-                Admin Panel
+        <Sider
+            collapsible
+            collapsed={collapsed}
+            trigger={null}
+            width={240}
+            style={{ background: "#001529", minHeight: "100vh" }}
+        >
+            <div className="flex items-center justify-between p-4 border-b border-gray-700">
+                <div className={`text-white text-xl font-bold ${collapsed ? "hidden" : ""}`}>
+                    Admin Panel
+                </div>
+                <button
+                    onClick={() => setCollapsed(!collapsed)}
+                    className="text-white"
+                >
+                    {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                </button>
             </div>
 
-            <nav className="mt-6 px-4">
-                <ul className="space-y-3">
+            <Menu
+                mode="inline"
+                theme="dark"
+                selectedKeys={[getActiveKey()]}
+                defaultOpenKeys={[""]}
+                style={{ borderRight: 0 }}
+            >
+                <Menu.Item key="dashboard" icon={<DashboardOutlined />}>
+                    <Link href={route("admin.dashboard")}>Dashboard</Link>
+                </Menu.Item>
 
-                    <li>
-                        <Link
-                            href={route("admin.dashboard")}
-                            className={`flex items-center gap-2 px-3 py-2 rounded text-base font-medium ${isActive("admin.dashboard")
-                                ? "bg-gray-700"
-                                : "hover:bg-gray-700"
-                                }`}
-                        >
-                            <DashboardOutlined />
-                            Dashboard
-                        </Link>
-                    </li>
+                <Menu.SubMenu
+                    key="master"
+                    icon={<AppstoreOutlined />}
+                    title="Master Entry"
+                >
+                    <Menu.Item key="categories" icon={<TagsOutlined />}>
+                        <Link href={route("admin.categories.index")}>Categories</Link>
+                    </Menu.Item>
+                    <Menu.Item key="colors" icon={<BgColorsOutlined />}>
+                        <Link href="/admin/colors">Colors</Link>
+                    </Menu.Item>
+                    <Menu.Item key="patterns" icon={<FormatPainterOutlined />}>
+                        <Link href="/admin/patterns">Patterns</Link>
+                    </Menu.Item>
+                    <Menu.Item key="materials" icon={<AppstoreAddOutlined />}>
+                        <Link href="/admin/materials">Materials</Link>
+                    </Menu.Item>
+                </Menu.SubMenu>
 
-                    <li>
-                        <Menu
-                            mode="inline"
-                            theme="dark"
-                            defaultOpenKeys={["master"]}
-                            selectedKeys={[window.location.pathname]}
-                            style={{
-                                backgroundColor: "transparent",
-                                borderRight: "none",
-                            }}
-                            inlineIndent={16}
-                        >
-                            <SubMenu
-                                key="master"
-                                icon={<AppstoreOutlined />}
-                                title={
-                                    <span className="flex items-center gap-2 py-2 text-base font-medium">
-                                        Master Entry
-                                    </span>
-                                }
-                            >
-                                <Menu.Item key="/admin/colors" icon={<BgColorsOutlined />}>
-                                    <Link href="/admin/colors">Colors</Link>
-                                </Menu.Item>
-                                <Menu.Item key="/admin/patterns" icon={<FormatPainterOutlined />}>
-                                    <Link href="/admin/patterns">Patterns</Link>
-                                </Menu.Item>
-                                <Menu.Item key="/admin/materials" icon={<AppstoreAddOutlined />}>
-                                    <Link href="/admin/materials">Materials</Link>
-                                </Menu.Item>
-                            </SubMenu>
-                        </Menu>
-                    </li>
+                <Menu.Item key="vendors" icon={<TeamOutlined />}>
+                    <Link href={route('admin.vendors')}>Vendors</Link>
+                </Menu.Item>
 
-                    <li>
-                        <Link
-                            href="#"
-                            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 text-base font-medium"
-                        >
-                            <TeamOutlined />
-                            Vendors
-                        </Link>
-                    </li>
+                <Menu.Item key="products" icon={<ShopOutlined />}>
+                    <Link href={route("admin.products.index")}>Products</Link>
+                </Menu.Item>
 
-                    <li>
-                        <Link
-                            href={route("admin.products.index")}
-                            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 text-base font-medium"
-                        >
-                            <ShopOutlined />
-                            Products
-                        </Link>
-                    </li>
 
-                    <li>
-                        <Link
-                            href={route('admin.categories.index')}
-                            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 text-base font-medium"
-                        >
-                            <TagsOutlined />
-                            Categories
-                        </Link>
-                    </li>
 
-                    <li>
-                        <Link
-                            href="#"
-                            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 text-base font-medium"
-                        >
-                            <ShoppingCartOutlined />
-                            Orders
-                        </Link>
-                    </li>
+                <Menu.Item key="orders" icon={<ShoppingCartOutlined />}>
+                    <Link href={route('admin.orders')}>Orders</Link>
+                </Menu.Item>
 
-                    <li>
-                        <Link
-                            href="#"
-                            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 text-base font-medium"
-                        >
-                            <CreditCardOutlined />
-                            Payments
-                        </Link>
-                    </li>
+                <Menu.Item key="payments" icon={<CreditCardOutlined />}>
+                    <Link href={route('admin.payments')}>Payments</Link>
+                </Menu.Item>
 
-                    <li>
-                        <Link
-                            href="#"
-                            className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-700 text-base font-medium"
-                        >
-                            <PictureOutlined />
-                            Banners
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+                {/* <Menu.Item key="banners" icon={<PictureOutlined />}>
+                    <Link href="#">Banners</Link>
+                </Menu.Item> */}
+            </Menu>
+
+            <style>{`
+                .ant-menu-dark .ant-menu-item,
+                .ant-menu-dark .ant-menu-submenu-title {
+                    font-size: 16px !important;
+                }
+                .ant-menu-dark .ant-menu-item a,
+                .ant-menu-dark .ant-menu-submenu-title a {
+                    color: white !important;
+                    font-size: 16px !important;
+                }
+            `}</style>
+        </Sider>
     );
 }

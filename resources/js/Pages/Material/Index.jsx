@@ -61,7 +61,7 @@ export default function MaterialIndex({ materials }) {
 
     return (
         <AdminLayout>
-            <div className="p-4 bg-white shadow rounded">
+            <div className="p-4 rounded">
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Materials</h2>
                     <Button type="primary" onClick={() => showModal()}>Add Material</Button>
@@ -71,7 +71,7 @@ export default function MaterialIndex({ materials }) {
                     dataSource={materials}
                     columns={columns}
                     rowKey="id"
-                    pagination={{ pageSize: 10 }}
+                    pagination={{ pageSize: 10 }} bordered
                 />
 
                 <Modal

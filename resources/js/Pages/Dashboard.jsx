@@ -32,12 +32,26 @@ function Dashboard() {
         name: user?.name || '',
         email: user?.email || '',
         phone: user?.phone || '',
-        address: user?.address || '',
+        city: user?.city || '',
+        state: user?.state || '',
+        zip_code: user?.zip_code || '',
+        address_line1: user?.address_line1 || '',
+        // address_line2: user?.address_line2 || '',
+        // address: user?.address || '',
     });
 
     const handleProfileUpdate = () => {
-        updateProfile(route('profile.userUpdate'));
+        updateProfile(route('profile.userUpdate'), {
+            onSuccess: () => {
+                message.success('Profile updated successfully!');
+            },
+            onError: (errors) => {
+                console.error('Profile update errors:', errors);
+                message.error('Failed to update profile. Please check the errors.');
+            },
+        });
     };
+
 
     // Change password form
     const {
@@ -53,8 +67,22 @@ function Dashboard() {
     });
 
     const handlePasswordChange = () => {
-        changePassword(route('change-password.submit'));
+        changePassword(route('change-password.submit'), {
+            onSuccess: () => {
+                message.success('Password changed successfully!');
+                setPasswordData({
+                    current_password: '',
+                    new_password: '',
+                    confirm_password: '',
+                });
+            },
+            onError: (errors) => {
+                console.error('Password change errors:', errors);
+                message.error('Failed to change password. Please check the errors.');
+            },
+        });
     };
+
 
     // wishlist
     const [wishlist, setWishlist] = useState([]);
@@ -128,8 +156,20 @@ function Dashboard() {
                                                     <Form.Item label="Phone Number">
                                                         <Input addonBefore="+91" value={profile.phone} onChange={(e) => setProfile('phone', e.target.value)} />
                                                     </Form.Item>
+                                                    <Form.Item label="City">
+                                                        <Input value={profile.city} onChange={(e) => setProfile('city', e.target.value)} />
+                                                    </Form.Item>
+                                                    <Form.Item label="State">
+                                                        <Input value={profile.state} onChange={(e) => setProfile('state', e.target.value)} />
+                                                    </Form.Item>
                                                     <Form.Item label="Address">
-                                                        <Input.TextArea rows={4} value={profile.address} onChange={(e) => setProfile('address', e.target.value)} />
+                                                        <Input.TextArea rows={4} value={profile.address_line1} onChange={(e) => setProfile('address_line1', e.target.value)} />
+                                                    </Form.Item>
+                                                    {/* <Form.Item label="Address Line 2">
+                                                        <Input.TextArea rows={4} value={profile.address_line2} onChange={(e) => setProfile('address_line2', e.target.value)} />
+                                                    </Form.Item> */}
+                                                    <Form.Item label="Zip Code">
+                                                        <Input value={profile.zip_code} onChange={(e) => setProfile('zip_code', e.target.value)} />
                                                     </Form.Item>
                                                     <div className="text-right">
                                                         <Button type="primary" htmlType="submit" loading={profileProcessing}>Save Changes</Button>

@@ -5,7 +5,7 @@ import Footer from "@/Components/Footer";
 import './Home.css';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
-import { Autoplay, EffectFade, EffectCoverflow } from 'swiper/modules';
+import { Autoplay, EffectFade, EffectCoverflow, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/effect-coverflow';
 import FrontLayout from "@/Layouts/FrontLayout";
@@ -82,8 +82,6 @@ export default function Home() {
         setActiveTab(tab);
     };
 
-    // count down date
-    const mainSwiperRef = useRef(null);
     const sliderItems = [
         {
             id: "item1",
@@ -263,6 +261,26 @@ export default function Home() {
         ));
     };
 
+    const prevRef = useRef(null);
+    const nextRef = useRef(null);
+    const swiperRef = useRef(null);
+
+    useEffect(() => {
+        if (
+            swiperRef.current &&
+            swiperRef.current.params &&
+            swiperRef.current.params.navigation
+        ) {
+            swiperRef.current.params.navigation.prevEl = prevRef.current;
+            swiperRef.current.params.navigation.nextEl = nextRef.current;
+
+            // Re-init navigation
+            swiperRef.current.navigation.destroy();
+            swiperRef.current.navigation.init();
+            swiperRef.current.navigation.update();
+        }
+    }, []);
+
     return (
         <>
             {/* <Header /> */}
@@ -326,9 +344,9 @@ export default function Home() {
                     </div>
 
                     {/* Slider Section */}
-                    <div className="slider-wrapper">
+                    <div className="slider-wrapper" style={{ position: 'relative' }}>
                         <Swiper
-                            modules={[Autoplay, EffectFade]}
+                            modules={[Autoplay, EffectFade, Navigation]}
                             autoplay={{ delay: 4000, disableOnInteraction: false }}
                             loop
                             speed={800}
@@ -336,7 +354,7 @@ export default function Home() {
                             spaceBetween={0}
                             effect="fade"
                             fadeEffect={{ crossFade: true }}
-                            onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
+                            onSwiper={(swiper) => (swiperRef.current = swiper)}
                             className="main-swiper"
                         >
                             {sliderItems.map((item) => (
@@ -346,8 +364,7 @@ export default function Home() {
                                             <div className="circle-bg"></div>
                                             <img src={item.imgSrc} alt={item.mainTitle} />
                                         </div>
-                                        {/* Text */}
-                                        <div className="slide-text" style={{ flex: '1', paddingLeft: '2rem' }}>
+                                        <div className="slide-text" style={{ flex: '1', paddingLeft: '3rem' }}>
                                             <h4>{item.title}</h4>
                                             <h3>{item.subtitle}</h3>
                                             <h2>{item.mainTitle}</h2>
@@ -362,25 +379,45 @@ export default function Home() {
                             ))}
                         </Swiper>
 
-                        <div className="thumb-swiper-wrapper">
-                            <Swiper
-                                slidesPerView={4}
-                                spaceBetween={10}
-                                loop={false}
-                                allowTouchMove
-                            >
-                                {sliderItems.map((subItem, i) => (
-                                    <SwiperSlide key={`thumb-${subItem.id}`}>
-                                        <div
-                                            className="thumb-image"
-                                            onClick={() => mainSwiperRef.current?.slideToLoop(i)}
-                                        >
-                                            <img src={subItem.imgSrc} alt={subItem.mainTitle} />
-                                        </div>
-                                    </SwiperSlide>
-                                ))}
-                            </Swiper>
-                        </div>
+                        {/* Custom navigation buttons */}
+                        <button
+                            ref={prevRef}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                left: '10px',
+                                transform: 'translateY(-50%)',
+                                zIndex: 10,
+                                background: 'rgba(0,0,0,0.5)',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            &#10094;
+                        </button>
+                        <button
+                            ref={nextRef}
+                            style={{
+                                position: 'absolute',
+                                top: '50%',
+                                right: '10px',
+                                transform: 'translateY(-50%)',
+                                zIndex: 10,
+                                background: 'rgba(0,0,0,0.5)',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '50%',
+                                width: '40px',
+                                height: '40px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            &#10095;
+                        </button>
                     </div>
 
                     {/* Banner Section */}
@@ -450,6 +487,7 @@ export default function Home() {
                             <div className="row gutter-y-30 ">
                                 {products.map((product) => (
                                     <div key={product.id} className="col-lg-3 col-md-6">
+                                        <a href={route('products.index', { title: 'Synthetic Fabrics', filter: 'synthetic' })}>
                                         <div className="xc-product-eight__item">
                                             <div className="xc-product-eight__img">
                                                 <img src={product.imgSrc} alt="fas" />
@@ -485,6 +523,7 @@ export default function Home() {
                                                 <span className="text-gray-900 text-xl font-bold">&#8377;{product.discountedPrice}</span>
                                             </div>
                                         </div>
+                                        </a>
                                     </div>
                                 ))}
                             </div>
@@ -637,131 +676,131 @@ export default function Home() {
                 </div>
 
                 {/* for quick view */}
-{showQuickView && quickViewProduct && (
-  <div
-    style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 9999,
-      padding: '16px',
-      boxSizing: 'border-box',
-    }}
-  >
-    <div
-      style={{
-        backgroundColor: '#fff',
-        borderRadius: '12px',
-        width: '100%',
-        maxWidth: '800px',
-        maxHeight: '90%',
-        overflowY: 'auto',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: window.innerWidth < 640 ? 'column' : 'row', // 💡 Responsive layout
-        gap: '24px',
-        padding: '20px',
-      }}
-    >
-      {/* Close Button */}
-      <button
-        onClick={closeQuickView}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          fontSize: '24px',
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-        }}
-      >
-        &times;
-      </button>
+                {showQuickView && quickViewProduct && (
+                    <div
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            zIndex: 9999,
+                            padding: '16px',
+                            boxSizing: 'border-box',
+                        }}
+                    >
+                        <div
+                            style={{
+                                backgroundColor: '#fff',
+                                borderRadius: '12px',
+                                width: '100%',
+                                maxWidth: '800px',
+                                maxHeight: '90%',
+                                overflowY: 'auto',
+                                position: 'relative',
+                                display: 'flex',
+                                flexDirection: window.innerWidth < 640 ? 'column' : 'row', // 💡 Responsive layout
+                                gap: '24px',
+                                padding: '20px',
+                            }}
+                        >
+                            {/* Close Button */}
+                            <button
+                                onClick={closeQuickView}
+                                style={{
+                                    position: 'absolute',
+                                    top: '10px',
+                                    right: '10px',
+                                    fontSize: '24px',
+                                    border: 'none',
+                                    background: 'transparent',
+                                    cursor: 'pointer',
+                                }}
+                            >
+                                &times;
+                            </button>
 
-      {/* Image Section */}
-      <div
-        style={{
-          flex: '1',
-          minWidth: '240px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <img
-          src={quickViewProduct.imgSrc}
-          alt={quickViewProduct.title}
-          style={{
-            width: '100%',
-            maxWidth: '300px',
-            height: 'auto',
-            borderRadius: '8px',
-            objectFit: 'cover',
-          }}
-        />
-      </div>
+                            {/* Image Section */}
+                            <div
+                                style={{
+                                    flex: '1',
+                                    minWidth: '240px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                }}
+                            >
+                                <img
+                                    src={quickViewProduct.imgSrc}
+                                    alt={quickViewProduct.title}
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '300px',
+                                        height: 'auto',
+                                        borderRadius: '8px',
+                                        objectFit: 'cover',
+                                    }}
+                                />
+                            </div>
 
-      {/* Product Info Section */}
-      <div style={{ flex: '2', textAlign: window.innerWidth < 640 ? 'center' : 'left' }}>
-        <h2 style={{ marginBottom: '10px', fontSize: '20px' }}>{quickViewProduct.title}</h2>
-        <p style={{ marginBottom: '6px', fontSize: '16px' }}>
-          <strong>Price:</strong> ₹{quickViewProduct.originalPrice}
-        </p>
-        {quickViewProduct.discountedPrice && (
-          <p style={{ marginBottom: '6px', fontSize: '16px' }}>
-            <strong>Offer:</strong> ₹{quickViewProduct.discountedPrice}
-          </p>
-        )}
-        <div
-          style={{
-            marginTop: '20px',
-            display: 'flex',
-            flexDirection: window.innerWidth < 640 ? 'column' : 'row',
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: window.innerWidth < 640 ? 'center' : 'flex-start',
-          }}
-        >
-          <button
-            onClick={() => addToCart(quickViewProduct)}
-            style={{
-              backgroundColor: '#3182ce',
-              color: '#fff',
-              padding: '10px 20px',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              width: window.innerWidth < 640 ? '100%' : 'auto',
-            }}
-          >
-            Add to Cart
-          </button>
-          <button
-            onClick={() => addToWishlist(quickViewProduct)}
-            style={{
-              backgroundColor: '#e53e3e',
-              color: '#fff',
-              padding: '10px 20px',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              width: window.innerWidth < 640 ? '100%' : 'auto',
-            }}
-          >
-            Add to Wishlist
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+                            {/* Product Info Section */}
+                            <div style={{ flex: '2', textAlign: window.innerWidth < 640 ? 'center' : 'left' }}>
+                                <h2 style={{ marginBottom: '10px', fontSize: '20px' }}>{quickViewProduct.title}</h2>
+                                <p style={{ marginBottom: '6px', fontSize: '16px' }}>
+                                    <strong>Price:</strong> ₹{quickViewProduct.originalPrice}
+                                </p>
+                                {quickViewProduct.discountedPrice && (
+                                    <p style={{ marginBottom: '6px', fontSize: '16px' }}>
+                                        <strong>Offer:</strong> ₹{quickViewProduct.discountedPrice}
+                                    </p>
+                                )}
+                                <div
+                                    style={{
+                                        marginTop: '20px',
+                                        display: 'flex',
+                                        flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+                                        gap: '10px',
+                                        alignItems: 'center',
+                                        justifyContent: window.innerWidth < 640 ? 'center' : 'flex-start',
+                                    }}
+                                >
+                                    <button
+                                        onClick={() => addToCart(quickViewProduct)}
+                                        style={{
+                                            backgroundColor: '#3182ce',
+                                            color: '#fff',
+                                            padding: '10px 20px',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            width: window.innerWidth < 640 ? '100%' : 'auto',
+                                        }}
+                                    >
+                                        Add to Cart
+                                    </button>
+                                    <button
+                                        onClick={() => addToWishlist(quickViewProduct)}
+                                        style={{
+                                            backgroundColor: '#e53e3e',
+                                            color: '#fff',
+                                            padding: '10px 20px',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            width: window.innerWidth < 640 ? '100%' : 'auto',
+                                        }}
+                                    >
+                                        Add to Wishlist
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
 
             </FrontLayout>

@@ -97,6 +97,70 @@ const Header = () => {
         </ul>
       </li>
 
+      {/* sarees */}
+      <li className={`has-dropdown ${isMobile && openDropdowns['sarees'] ? 'open' : ''}`}>
+        <Link
+          href="#"
+          onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('sarees'))}
+        >
+          Sarees
+        </Link>
+        <ul className="submenu">
+
+          {/* By Fabric */}
+          <li className={`has-dropdown ${isMobile && openDropdowns['sareeFabric'] ? 'open' : ''}`}>
+            <Link
+              href="#"
+              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('sareeFabric'))}
+            >
+              By Fabric
+            </Link>
+            <ul className="submenu">
+              <li><Link href={route('products.index', { title: 'Cotton Sarees', filter: 'cotton' })}>Cotton</Link></li>
+              <li><Link href={route('products.index', { title: 'Silk Sarees', filter: 'silk' })}>Silk</Link></li>
+              <li><Link href={route('products.index', { title: 'Linen Sarees', filter: 'linen' })}>Linen</Link></li>
+              <li><Link href={route('products.index', { title: 'Chiffon Sarees', filter: 'chiffon' })}>Chiffon</Link></li>
+              <li><Link href={route('products.index', { title: 'Georgette Sarees', filter: 'georgette' })}>Georgette</Link></li>
+            </ul>
+          </li>
+
+          {/* By Occasion */}
+          <li className={`has-dropdown ${isMobile && openDropdowns['sareeOccasion'] ? 'open' : ''}`}>
+            <Link
+              href="#"
+              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('sareeOccasion'))}
+            >
+              By Occasion
+            </Link>
+            <ul className="submenu">
+              <li><Link href={route('products.index', { title: 'Bridal Sarees', filter: 'bridal' })}>Bridal</Link></li>
+              <li><Link href={route('products.index', { title: 'Party Wear Sarees', filter: 'party' })}>Party Wear</Link></li>
+              <li><Link href={route('products.index', { title: 'Casual Sarees', filter: 'casual' })}>Casual</Link></li>
+              <li><Link href={route('products.index', { title: 'Office Wear Sarees', filter: 'office' })}>Office Wear</Link></li>
+              <li><Link href={route('products.index', { title: 'Festive Sarees', filter: 'festive' })}>Festive</Link></li>
+            </ul>
+          </li>
+
+          {/* By Region */}
+          <li className={`has-dropdown ${isMobile && openDropdowns['sareeRegion'] ? 'open' : ''}`}>
+            <Link
+              href="#"
+              onClick={(e) => isMobile && (e.preventDefault(), toggleDropdown('sareeRegion'))}
+            >
+              By Region
+            </Link>
+            <ul className="submenu">
+              <li><Link href={route('products.index', { title: 'Banarasi Sarees', filter: 'banarasi' })}>Banarasi</Link></li>
+              <li><Link href={route('products.index', { title: 'Kanjivaram Sarees', filter: 'kanjivaram' })}>Kanjivaram</Link></li>
+              <li><Link href={route('products.index', { title: 'Paithani Sarees', filter: 'paithani' })}>Paithani</Link></li>
+              <li><Link href={route('products.index', { title: 'Chanderi Sarees', filter: 'chanderi' })}>Chanderi</Link></li>
+              <li><Link href={route('products.index', { title: 'Sambalpuri Sarees', filter: 'sambalpuri' })}>Sambalpuri</Link></li>
+            </ul>
+          </li>
+
+        </ul>
+      </li>
+
       <li className={`has-dropdown ${isMobile && openDropdowns['shop'] ? 'open' : ''}`}>
         <Link
           href="#"

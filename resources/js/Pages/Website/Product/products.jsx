@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import FrontLayout from '@/Layouts/FrontLayout';
 import '@/Pages/Home/Home.css';
+import { message } from 'antd';
 
 const Products = ({ title }) => {
     const { url } = usePage();
@@ -95,6 +96,30 @@ const Products = ({ title }) => {
 
         setCompareList(updatedList);
         localStorage.setItem("compareList", JSON.stringify(updatedList));
+    };
+    // show notification wishlist and cart if user not logged in
+    const { auth } = usePage().props;
+    const user = auth?.user;
+    message.config({
+        duration: 2,           // Message stays for 2 seconds
+        maxCount: 3,           // Max visible messages
+    });
+    const addToWishlist = (product) => {
+        if (!user) {
+            message.info('Please login to add to wishlist');
+            return;
+        }
+
+        const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
+        const alreadyExists = existing.find(item => item.id === product.id);
+
+        if (!alreadyExists) {
+            existing.push(product);
+            localStorage.setItem("wishlist", JSON.stringify(existing));
+            message.success('Added to wishlist!');
+        } else {
+            message.warning('Already in wishlist!');
+        }
     };
 
     return (
@@ -269,7 +294,16 @@ const Products = ({ title }) => {
                                                             alt={product.name}
                                                             className="absolute w-full h-full object-cover"
                                                         />
-                                                        {/* Compare button on hover */}
+                                                        {/* Wishlist button on hover */}
+                                                        <button
+                                                            onClick={(e) => {
+                                                                e.preventDefault();
+                                                                addToWishlist(product);
+                                                            }}
+                                                            className="absolute top-2 right-2 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow text-gray-600 opacity-10 group-hover:opacity-100 transition-opacity"
+                                                        >
+                                                            <i className="fas fa-heart"></i>
+                                                        </button>
                                                     </div>
                                                     <div className="mt-3 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
 

@@ -19,7 +19,7 @@ class ProductStoreRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
 
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'name' => 'required|string|unique:products,name|max:255',
+            'name' => 'required|string|max:255',
 
             // new: foreign keys
             'material_id' => 'nullable|exists:materials,id',
@@ -33,6 +33,12 @@ class ProductStoreRequest extends FormRequest
             'minimum_order_quantity' => 'required|numeric|min:0', // allow decimal if needed
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
+            'origin' => 'nullable|string',
+
+            // New specifications fields
+            'specifications' => ['nullable', 'array'],
+            'specifications.count' => ['nullable', 'string', 'max:100'],
+            'specifications.width' => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -48,7 +54,6 @@ class ProductStoreRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
 
             'name.required' => 'The product name is required.',
-            'name.unique' => 'This product name is already in use.',
             'name.max' => 'The product name must not exceed 255 characters.',
 
             'material_id.exists' => 'The selected material is invalid.',
@@ -75,6 +80,9 @@ class ProductStoreRequest extends FormRequest
 
             'status.required' => 'The product status is required.',
             'status.in' => 'The status must be either active or inactive.',
+
+            'specifications.count.max' => 'The count may not be greater than 100 characters.',
+            'specifications.width.max' => 'The width may not be greater than 100 characters.',
         ];
     }
 }

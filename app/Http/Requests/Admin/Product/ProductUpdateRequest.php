@@ -29,7 +29,6 @@ class ProductUpdateRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('products', 'name')->ignore($this->route('product')),
             ],
             'material_id' => 'nullable|exists:materials,id',
             'color_id' => 'nullable|exists:colors,id',
@@ -41,6 +40,12 @@ class ProductUpdateRequest extends FormRequest
             'minimum_order_quantity' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'status' => 'required|in:active,inactive',
+            'origin' => 'nullable|string',
+
+            // New specifications fields
+            'specifications' => ['nullable', 'array'],
+            'specifications.count' => ['nullable', 'string', 'max:100'],
+            'specifications.width' => ['nullable', 'string', 'max:100'],
         ];
     }
 
@@ -61,7 +66,6 @@ class ProductUpdateRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
 
             'name.required' => 'The product name is required.',
-            'name.unique' => 'This product name is already in use.',
             'name.max' => 'The product name must not exceed 255 characters.',
 
             'material.max' => 'Material must not exceed 100 characters.',
@@ -91,6 +95,10 @@ class ProductUpdateRequest extends FormRequest
 
             'status.required' => 'The status is required.',
             'status.in' => 'Status must be either active or inactive.',
+
+            'specifications.count.max' => 'The count may not be greater than 100 characters.',
+            'specifications.width.max' => 'The width may not be greater than 100 characters.',
+
         ];
     }
 }

@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::with(['material', 'color', 'pattern','category'])
+        $products = Product::with(['material', 'color', 'pattern', 'category'])
             ->when(
                 $request->filled('search'),
                 fn(Builder $query) => $query->where('name', 'like', '%' . $search = $request->input('search') . '%')
@@ -68,7 +68,13 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $specs = $product->specifications->pluck('value', 'key');
+
+        return Inertia::render('Product/Edit', [
+            'product' => $product,
+            'specifications' => $specs,
+            // other data
+        ]);
     }
 
     /**
@@ -84,7 +90,21 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
-        $product->update($request->validated());
+        $validated = $request->validated();
+
+        // Update product
+        $product->update($validated);
+
+        // Update specifications
+        if (isset($validated['specifications'])) {
+            foreach ($validated['specifications'] as $key => $value) {
+                $product->specifications()->updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $value]
+                );
+            }
+        }
+
         return Redirect::route('admin.products.index')
             ->with('success', 'Product updated successfully.');
     }

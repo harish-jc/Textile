@@ -65,10 +65,14 @@ const BuyerRfqForm = () => {
                             <Input type="number" placeholder="e.g. 100" />
                         </Form.Item>
 
-                        <Form.Item label="Email"
+                        {/* <Form.Item label="Email"
                             name="email"
                             rules={[{ required: true, type: 'email' }]}>
                             <Input placeholder="Enter your email" />
+                        </Form.Item> */}
+                        
+                        <Form.Item label="Phone Number" name="phone" rules={[{ required: true, message: 'Please enter your phone number' }]}>
+                            <Input placeholder="Enter your phone number" />
                         </Form.Item>
 
                         <Form.Item

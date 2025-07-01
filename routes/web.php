@@ -143,6 +143,15 @@ Route::prefix('admin')->as('admin.')->group(function () {
 
     //category
     Route::resource('categories', CategoryController::class);
+    Route::get('vendors', function () {
+        return Inertia::render('Admin/Vendors');
+    })->name('vendors');
+    Route::get('orders', function () {
+        return Inertia::render('Admin/Orders');
+    })->name('orders');
+    Route::get('payments', function () {
+        return Inertia::render('Admin/Payments');
+    })->name('payments');
 });
 
 // Laravel Breeze/Sanctum auth routes

@@ -221,12 +221,13 @@ const Show = ({ product }) => {
 
 
                             {/* Buttons */}
-                            <div className="mt-6 flex items-center gap-3">
+                            <div className="mt-6 flex flex-wrap sm:flex-nowrap items-center gap-3">
                                 <button
                                     onClick={handleAddToCart}
                                     className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                                 >
-                                    <i className="fas fa-shopping-cart"></i>
+                                    {/* <i className="fas fa-shopping-cart"></i> */}
+                                    Add to Cart
                                 </button>
                                 <button
                                     type="button"
@@ -282,10 +283,12 @@ const Show = ({ product }) => {
                                         <Input placeholder="Enter your name" />
                                     </Form.Item>
 
-                                    <Form.Item label="Email" name="email" rules={[{ type: 'email' }]}>
+                                    {/* <Form.Item label="Email" name="email" rules={[{ type: 'email' }]}>
                                         <Input placeholder="Enter your email" />
+                                    </Form.Item> */}
+                                    <Form.Item label="Phone Number" name="phone" rules={[{ required: true, message: 'Please enter your phone number' }]}>
+                                        <Input placeholder="Enter your phone number" />
                                     </Form.Item>
-
                                     <Form.Item name="attachment" valuePropName="fileList" getValueFromEvent={e => e.fileList}>
                                         <Upload
                                             name="file"
@@ -371,7 +374,13 @@ const Show = ({ product }) => {
                     {/* Tab Contents */}
                     <div className="text-left text-gray-900 leading-relaxed space-y-4">
                         {activeTab === 'Description' && (
-                            <p className='text-black'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas, quo excepturi, consequuntur blanditiis libero qui quod rerum quae odio commodi dicta expedita reiciendis corrupti dolore nulla aliquam iste ratione, incidunt consequatur sapiente placeat? Consequuntur similique, possimus vero dolor praesentium, dicta aspernatur odio expedita, beatae eum non nisi. Id quis dolores animi atque nihil beatae commodi dolore expedita necessitatibus, velit ex rem eius voluptatem molestiae, cupiditate sunt autem temporibus consectetur. Ut, nihil nobis, eligendi tenetur ab ipsa eveniet repudiandae dolorem corrupti eius quaerat eum! Alias quia sapiente illum et totam tenetur. Facilis, tempora. Pariatur illum distinctio voluptatum nisi adipisci esse corrupti?</p>
+                            <>
+                                <p><strong className='text-black'>Count :</strong> 60s</p>
+                                <p><strong className='text-black'>Origin :</strong> Gujarat</p>
+                                <p><strong className='text-black'>Width of material :</strong> 150cm</p>
+                                <hr className='text-gray-400 m-2' />
+                                <p className='text-black'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas, quo excepturi, consequuntur blanditiis libero qui quod rerum quae odio commodi dicta expedita reiciendis corrupti dolore nulla aliquam iste ratione, incidunt consequatur sapiente placeat? Consequuntur similique, possimus vero dolor praesentium, dicta aspernatur odio expedita, beatae eum non nisi. Id quis dolores animi atque nihil beatae commodi dolore expedita necessitatibus, velit ex rem eius voluptatem molestiae, cupiditate sunt autem temporibus consectetur. Ut, nihil nobis, eligendi tenetur ab ipsa eveniet repudiandae dolorem corrupti eius quaerat eum! Alias quia sapiente illum et totam tenetur. Facilis, tempora. Pariatur illum distinctio voluptatum nisi adipisci esse corrupti?</p>
+                            </>
                         )}
                         {activeTab === 'Additional Info' && (
                             <>
@@ -449,134 +458,134 @@ const Show = ({ product }) => {
                     </div>
                 </div>
             </section>
-           {showQuickView && quickViewProduct && (
-  <div
-    style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.6)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 9999,
-      padding: '16px',
-      boxSizing: 'border-box',
-    }}
-  >
-    <div
-      style={{
-        backgroundColor: '#fff',
-        borderRadius: '12px',
-        width: '100%',
-        maxWidth: '800px',
-        maxHeight: '90%',
-        overflowY: 'auto',
-        position: 'relative',
-        padding: '20px',
-        display: 'flex',
-        flexDirection: window.innerWidth < 640 ? 'column' : 'row',
-        gap: '20px',
-      }}
-    >
-      {/* Close Button */}
-      <button
-        onClick={() => {
-          setShowQuickView(false);
-          setQuickViewProduct(null);
-        }}
-        style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          fontSize: '24px',
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-        }}
-      >
-        &times;
-      </button>
+            {showQuickView && quickViewProduct && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 9999,
+                        padding: '16px',
+                        boxSizing: 'border-box',
+                    }}
+                >
+                    <div
+                        style={{
+                            backgroundColor: '#fff',
+                            borderRadius: '12px',
+                            width: '100%',
+                            maxWidth: '800px',
+                            maxHeight: '90%',
+                            overflowY: 'auto',
+                            position: 'relative',
+                            padding: '20px',
+                            display: 'flex',
+                            flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+                            gap: '20px',
+                        }}
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={() => {
+                                setShowQuickView(false);
+                                setQuickViewProduct(null);
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                fontSize: '24px',
+                                border: 'none',
+                                background: 'transparent',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            &times;
+                        </button>
 
-      {/* Image */}
-      <div
-        style={{
-          flex: '1',
-          minWidth: '220px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <img
-          src={quickViewProduct.imgSrc || quickViewProduct.image}
-          alt={quickViewProduct.title}
-          style={{
-            width: '100%',
-            maxWidth: '300px',
-            height: 'auto',
-            borderRadius: '8px',
-            objectFit: 'cover',
-          }}
-        />
-      </div>
+                        {/* Image */}
+                        <div
+                            style={{
+                                flex: '1',
+                                minWidth: '220px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <img
+                                src={quickViewProduct.imgSrc || quickViewProduct.image}
+                                alt={quickViewProduct.title}
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '300px',
+                                    height: 'auto',
+                                    borderRadius: '8px',
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        </div>
 
-      {/* Info */}
-      <div style={{ flex: '2', textAlign: window.innerWidth < 640 ? 'center' : 'left' }}>
-        <h2 style={{ marginBottom: '10px', fontSize: '20px' }}>{quickViewProduct.title}</h2>
-        <p style={{ marginBottom: '6px', fontSize: '16px' }}>
-          <strong>Price:</strong> ₹{quickViewProduct.price}
-        </p>
-        <p style={{ color: '#888', fontSize: '14px' }}>
-          ⭐ {quickViewProduct.rating?.toFixed(1)} / 5.0
-        </p>
+                        {/* Info */}
+                        <div style={{ flex: '2', textAlign: window.innerWidth < 640 ? 'center' : 'left' }}>
+                            <h2 style={{ marginBottom: '10px', fontSize: '20px' }}>{quickViewProduct.title}</h2>
+                            <p style={{ marginBottom: '6px', fontSize: '16px' }}>
+                                <strong>Price:</strong> ₹{quickViewProduct.price}
+                            </p>
+                            <p style={{ color: '#888', fontSize: '14px' }}>
+                                ⭐ {quickViewProduct.rating?.toFixed(1)} / 5.0
+                            </p>
 
-        {/* Buttons */}
-        <div
-          style={{
-            marginTop: '20px',
-            display: 'flex',
-            flexDirection: window.innerWidth < 640 ? 'column' : 'row',
-            gap: '10px',
-            alignItems: 'center',
-            justifyContent: window.innerWidth < 640 ? 'center' : 'flex-start',
-          }}
-        >
-          <button
-            onClick={() => handleAddToCart(quickViewProduct)}
-            style={{
-              backgroundColor: '#3182ce',
-              color: '#fff',
-              padding: '10px 20px',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              width: window.innerWidth < 640 ? '100%' : 'auto',
-            }}
-          >
-            Add to Cart
-          </button>
-          <button
-            onClick={() => handleAddToWishlist(quickViewProduct)}
-            style={{
-              backgroundColor: '#e53e3e',
-              color: '#fff',
-              padding: '10px 20px',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              width: window.innerWidth < 640 ? '100%' : 'auto',
-            }}
-          >
-            Add to Wishlist
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+                            {/* Buttons */}
+                            <div
+                                style={{
+                                    marginTop: '20px',
+                                    display: 'flex',
+                                    flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+                                    gap: '10px',
+                                    alignItems: 'center',
+                                    justifyContent: window.innerWidth < 640 ? 'center' : 'flex-start',
+                                }}
+                            >
+                                <button
+                                    onClick={() => handleAddToCart(quickViewProduct)}
+                                    style={{
+                                        backgroundColor: '#3182ce',
+                                        color: '#fff',
+                                        padding: '10px 20px',
+                                        border: 'none',
+                                        borderRadius: '6px',
+                                        cursor: 'pointer',
+                                        width: window.innerWidth < 640 ? '100%' : 'auto',
+                                    }}
+                                >
+                                    Add to Cart
+                                </button>
+                                <button
+                                    onClick={() => handleAddToWishlist(quickViewProduct)}
+                                    style={{
+                                        backgroundColor: '#e53e3e',
+                                        color: '#fff',
+                                        padding: '10px 20px',
+                                        border: 'none',
+                                        borderRadius: '6px',
+                                        cursor: 'pointer',
+                                        width: window.innerWidth < 640 ? '100%' : 'auto',
+                                    }}
+                                >
+                                    Add to Wishlist
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
 
 

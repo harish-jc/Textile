@@ -108,20 +108,34 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/');
     }
-    
+
     public function userUpdateProfile(Request $request)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'password' => ['nullable', 'confirmed', 'min:8'],
-            'phone' => ['nullable', 'string', 'max:15'],
-            'address' => ['nullable', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:15'],
+            'city' => ['nullable', 'string', 'max:100'],
+            'state' => ['nullable', 'string', 'max:100'],
+            'zip_code' => ['nullable', 'string', 'max:20'],
+            'address_line1' => ['nullable', 'string', 'max:255'],
+            'address_line2' => ['nullable', 'string', 'max:255'],
+            // 'address' => ['nullable', 'string', 'max:255'],
         ]);
 
         $user = auth()->user();
-
-        $user->update($request->only('name', 'email', 'phone', 'address'));
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'city' => $request->city,
+            'state' => $request->state,
+            'zip_code' => $request->zip_code,
+            'address_line1' => $request->address_line1,
+            'address_line2' => $request->address_line2,
+        ]);
+        // $user->update($request->only('name', 'email', 'phone', 'address'));
 
         if ($request->filled('password')) {
             $user->update(['password' => bcrypt($request->password)]);

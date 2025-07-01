@@ -6,7 +6,7 @@ export default function Dashboard({ auth }) {
     <AdminLayout>
       <Head title="Admin Dashboard" />
 
-        <div className="p-6 bg-white shadow rounded-md">
+        <div className="p-6 rounded-md">
           <h1 className="text-3xl font-bold mb-6">Welcome, {auth.user.name} 👋</h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

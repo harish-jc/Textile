@@ -31,6 +31,8 @@ class Product extends Model
         'minimum_order_quantity',  // smallest purchasable amount (e.g. 0.5m)
         'description',
         'status',
+        'origin',
+        'specifications',
     ];
 
     /**
@@ -45,6 +47,7 @@ class Product extends Model
         'offer_price'            => 'decimal:2',
         'minimum_order_quantity' => 'decimal:2',
         'unit' => Unit::class, // Enum for unit of measurement
+        'specifications' => 'array',
     ];
 
     public function color()
@@ -76,7 +79,11 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
-    
+
+    public function specifications()
+    {
+        return $this->hasMany(ProductSpecification::class);
+    }
 
     /**
      * Get all carts that contain this product.

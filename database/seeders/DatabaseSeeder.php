@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             MaterialSeeder::class,
             ColorSeeder::class,
             PatternSeeder::class,
+            AdminUserSeeder::class,
         ]);
     }
 

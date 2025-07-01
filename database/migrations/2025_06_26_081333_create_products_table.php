@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
@@ -24,30 +21,29 @@ return new class extends Migration
 
             $table->enum('unit', ['meter', 'kg'])->default('meter');
 
-            $table->decimal('stock_quantity', 10, 2)->default(0);             // total available quantity
-            $table->decimal('price', 10, 2);                                  // per unit price
-            $table->decimal('offer_price', 10, 2)->nullable();                // optional discounted price
-            $table->decimal('minimum_order_quantity', 10, 2)->default(1);     // e.g. 0.5m
+            $table->decimal('stock_quantity', 10, 2)->default(0);
+            $table->decimal('price', 10, 2);
+            $table->decimal('offer_price', 10, 2)->nullable();
+            $table->decimal('minimum_order_quantity', 10, 2)->default(1);
 
             $table->text('description')->nullable();
+            $table->string('origin')->nullable();
+            $table->json('specifications')->nullable();
 
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
-            // Add foreign keys if you want:
+
+            // Optional: foreign keys
             // $table->foreign('vendor_id')->references('id')->on('users')->onDelete('set null');
             // $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            // $table->foreign('material_id')->references('id')->on('materials')->onDelete('set null');
+            // $table->foreign('color_id')->references('id')->on('colors')->onDelete('set null');
+            // $table->foreign('pattern_id')->references('id')->on('patterns')->onDelete('set null');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('products');
     }
 };
-
-// php artisan migrate --path=database/migrations/2025_06_26_081333_create_products_table.php
-// php artisan migrate:rollback --path=database/migrations/2025_06_26_081333_create_products_table.php
-
